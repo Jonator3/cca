@@ -1,20 +1,19 @@
 package timer;
 
-import application.VRApplication;
+import application.CCApplication;
 
 /**
- * Timer class to call the method checkPayment in the application. Main method
+ * Timer class to call a method regularly. Main method
  * can be executed in a scheduled way.
- * 
- * @author swe.uni-due.de
+ *
+ * @author Team_19
  *
  */
 public class Timer {
 
 	public static void main(String[] args) {
-		VRApplication vrApp = new VRApplication();
-		vrApp.checkPayment();
-		System.out
-				.println("All bookings not paid and older than 14 days are successfully deleted");
+		CCApplication ccApp = new CCApplication();
+		ccApp.runTimer();
+		System.out.println("nieääääääää");
 	}
 }

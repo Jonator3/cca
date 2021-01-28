@@ -3,11 +3,11 @@ package interfaces;
 /**
  * Interface for automatically called methods by a Timer.
  * 
- * @author swe.uni-due.de
+ * @author Team_19
  *
  */
 public interface ITimer {
 
-	public void checkPayment();
+	void runTimer();
 
 }
