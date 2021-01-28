@@ -48,6 +48,26 @@ public class TimeData {
     }
 
     public boolean isBefore(TimeData other){
-        return false; // TODO
+        if (this.year < other.year){
+            return true;
+        }else if (this.year > other.year){
+            return false;
+        }
+        if (this.month < other.month){
+            return true;
+        }else if(this.month > other.month){
+            return false;
+        }
+        if (this.day < other.day){
+            return true;
+        }else if (this.day > other.day){
+            return false;
+        }
+        if (this.hour < other.hour){
+            return true;
+        }else if (this.hour > other.hour){
+            return false;
+        }
+        return (this.min < other.min);
     }
 }
