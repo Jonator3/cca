@@ -26,6 +26,23 @@ public class Appointment {
         this.group_id = group_id;
     }
 
+    public Appointment(String name, String description, String location, String duration, String planned_participants, String dates, String deadline, boolean isFinal, int id, int group_id) {
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.duration = new TimeData(duration);
+        this.planned_participants = planned_participants.split(",");
+        String[] split = dates.split(",");
+        this.dates = new PossibleDate[split.length];
+        for (int i=0;i<this.dates.length;i++){
+            this.dates[i] = new PossibleDate(split[i]);
+        }
+        this.deadline = new TimeData(deadline);
+        this.isFinal = isFinal;
+        this.id = id;
+        this.group_id = group_id;
+    }
+
     public boolean isFinal() {
         return this.isFinal;
     }

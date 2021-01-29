@@ -2,6 +2,8 @@ package datatypes;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 public class TimeData {
     private int year;
     private int month;
@@ -25,6 +27,11 @@ public class TimeData {
         this.day = Integer.parseInt(data[2]);
         this.hour = Integer.parseInt(data[3]);
         this.min = Integer.parseInt(data[4]);
+    }
+
+    public static TimeData now(){
+        Date date = new Date();
+        return new TimeData(date.getYear(),date.getMonth(), date.getDay(), date.getHours(), date.getMinutes());
     }
 
     public int getDay() {

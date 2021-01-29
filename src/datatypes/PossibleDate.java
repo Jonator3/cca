@@ -9,6 +9,12 @@ public class PossibleDate {
         this.possible_participants = possible_participants;
     }
 
+    public PossibleDate(String s){
+        String[] data = s.split(";");
+        this.date = new TimeData(data[0]);
+        this.possible_participants = data[1].split(":");
+    }
+
     public TimeData getDate() {
         return date;
     }
@@ -19,7 +25,14 @@ public class PossibleDate {
 
     @Override
     public String toString() {
-        return ""; // TODO
+        String pp = "";
+        for (int i=0;i<possible_participants.length;i++){
+            if (i!=0){
+                pp += ":";
+            }
+            pp += possible_participants[i];
+        }
+        return date.toString() + ";" + pp;
     }
 
     public String[] getPossible_participants() {
