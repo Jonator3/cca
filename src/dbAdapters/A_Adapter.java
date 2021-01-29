@@ -12,7 +12,15 @@ import java.sql.SQLException;
 
 public class A_Adapter implements IAppointment {
 
-    private Configuration config = new Configuration();
+    private static Configuration config = new Configuration();
+    private static A_Adapter instance;
+
+    public static A_Adapter getInstance(){
+        if (instance == null){
+            instance = new A_Adapter();
+        }
+        return instance;
+    }
 
     @Override
     public Appointment getAppointment(int id) {
@@ -34,11 +42,10 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public Integer createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
-        String query = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, group_id) (?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, group_id)OUTPUT Inserted.id VALUES (?,?,?,?,?,?,?,?,?)";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
             try (PreparedStatement insert = con.prepareStatement(query)){
-                con.setAutoCommit(false);
                 insert.setString(1,name);
                 insert.setString(2,description);
                 insert.setString(3,location);
@@ -62,7 +69,6 @@ public class A_Adapter implements IAppointment {
                 insert.setString(7,deadline.toString());
                 insert.setInt(8,group_id);
                 int rep = insert.executeUpdate();
-                con.commit();
                 System.out.println(rep);
             }catch (SQLException e){
                 e.printStackTrace();
