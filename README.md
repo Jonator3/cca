@@ -1,3 +1,2 @@
 # cca
-sot
-This is the ColleberativeCallendarApp solution of Group 19 for SoftwareTechnik WS2020/21
+This is Team 19's ColleberativeCallendarApp solution for SoftwareTechnik WS2020/21.
