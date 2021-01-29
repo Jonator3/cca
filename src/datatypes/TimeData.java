@@ -18,6 +18,15 @@ public class TimeData {
         this.min = min;
     }
 
+    public TimeData(String s){
+        String[] data = s.split(":");
+        this.year = Integer.parseInt(data[0]);
+        this.month = Integer.parseInt(data[1]);
+        this.day = Integer.parseInt(data[2]);
+        this.hour = Integer.parseInt(data[3]);
+        this.min = Integer.parseInt(data[4]);
+    }
+
     public int getDay() {
         return day;
     }
@@ -40,10 +49,7 @@ public class TimeData {
 
     @Override
     public String toString() {
-        String temp = day + "." + month + "." + year + " " + hour + ":";
-        if(min < 10){
-            temp += "0";
-        }
+        String temp = day + ":" + month + ":" + year + ":" + hour + ":" + min;
         return temp + min;
     }
 

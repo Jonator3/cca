@@ -17,6 +17,11 @@ public class PossibleDate {
         this.possible_participants = possible_participants;
     }
 
+    @Override
+    public String toString() {
+        return ""; // TODO
+    }
+
     public String[] getPossible_participants() {
         return possible_participants;
     }
