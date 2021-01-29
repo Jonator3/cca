@@ -29,7 +29,7 @@
 	<div id="logo">Collaborative Calendar App<br>Software Engineering Implementation</div>
     <ul id="navigation">
     	<li><a href="index" title="Index">View Homesite</a></li>
-		<li><a href="calendarview" title="Calendar">View Callendar</a></li>
+		<li><a href="calendar?action=viewCalendar&groupid=1" title="Calendar">View Callendar</a></li>
 		<li><a href="addappointment" title="AddAppointment">Create an Appointment</a></li>
 	<!--#if navtype == "guest">
     	<li><a href="guestgui?page=defaultwebpage" title="Search Offers">Search Offers</a></li>	
