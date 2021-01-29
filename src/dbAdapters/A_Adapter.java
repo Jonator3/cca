@@ -5,10 +5,7 @@ import datatypes.PossibleDate;
 import datatypes.TimeData;
 import interfaces.IAppointment;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class A_Adapter implements IAppointment {
 
@@ -24,28 +21,78 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public Appointment getAppointment(int id) {
-        String query = ""; // TODO
+        String sql = "SELECT * FROM Appointments WHERE id = ?";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
-            // TODO
+            try (PreparedStatement query = con.prepareStatement(sql)){
+                con.setAutoCommit(false);
+                query.setInt(1,id);
+                ResultSet res = query.executeQuery();
+                con.commit();
+
+                Appointment a = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+
+                return a;
+            }catch (SQLException e){
+                e.printStackTrace();
+                return null;
+            }
         }catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;//TODO
     }
 
     @Override
     public boolean editAppointment(int id, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates) {
-        return false;//TODO
+        String sql = "UPDATE Appointments SET description = ?, location = ?, duration = ?, planned_participants = ?, dates = ? WHERE id = ? AND isFinal = FALSE";
+
+        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+            try (PreparedStatement update = con.prepareStatement(sql)){
+                con.setAutoCommit(false);
+                update.setString(1,description);
+                update.setString(2,location);
+                update.setString(3,duration.toString());
+                String pp = "";
+                for (int i=0;i<planned_participants.length;i++){
+                    if (i!=0){
+                        pp += ",";
+                    }
+                    pp += planned_participants[i];
+                }
+                update.setString(4,pp);
+                String pd = "";
+                for (int i=0;i<dates.length;i++){
+                    if (i!=0){
+                        pd += ",";
+                    }
+                    pd += dates[i].toString();
+                }
+                update.setString(5,pd);
+                int res = update.executeUpdate();
+                con.commit();
+
+                if (res == 0){
+                    return false;
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+                return false;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
     public Integer createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
-        String query = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, group_id)OUTPUT Inserted.id VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, group_id)OUTPUT Inserted.id VALUES (?,?,?,?,?,?,?,?,?)";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
-            try (PreparedStatement insert = con.prepareStatement(query)){
+            try (PreparedStatement insert = con.prepareStatement(sql)){
+                con.setAutoCommit(false);
                 insert.setString(1,name);
                 insert.setString(2,description);
                 insert.setString(3,location);
@@ -68,8 +115,9 @@ public class A_Adapter implements IAppointment {
                 insert.setString(6,pd);
                 insert.setString(7,deadline.toString());
                 insert.setInt(8,group_id);
-                int rep = insert.executeUpdate();
-                System.out.println(rep);
+                ResultSet res = insert.executeQuery();
+                con.commit();
+                return res.getInt("id");
             }catch (SQLException e){
                 e.printStackTrace();
                 return null;
@@ -78,8 +126,6 @@ public class A_Adapter implements IAppointment {
             e.printStackTrace();
             return null;
         }
-
-        return 0;//TODO
     }
 
     @Override
@@ -89,7 +135,23 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public boolean finalizeAppointment(int id) {
-        return false;//TODO
+        String sql = "UPDATE Appointments SET isFinal = TRUE WHERE id = ?";
+
+        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+            try (PreparedStatement update = con.prepareStatement(sql)){
+                con.setAutoCommit(false);
+                update.setInt(1,id);
+                update.executeUpdate();
+                con.commit();
+            }catch (SQLException e){
+                e.printStackTrace();
+                return false;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
