@@ -87,6 +87,11 @@ public class A_Adapter implements IAppointment {
     }
 
     @Override
+    public Appointment[] getEditableAppointments() {
+        return new Appointment[0];//TODO
+    }
+
+    @Override
     public Integer createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
         String sql = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, group_id)OUTPUT Inserted.id VALUES (?,?,?,?,?,?,?,?,?)";
 

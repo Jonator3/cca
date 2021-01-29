@@ -27,6 +27,10 @@ public class TimeData {
         this.min = Integer.parseInt(data[4]);
     }
 
+    public static TimeData now(){
+        return new TimeData(0,0,0,0,0);//TODO
+    }
+
     public int getDay() {
         return day;
     }
