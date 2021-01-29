@@ -32,7 +32,7 @@ public class MemberGUI extends HttpServlet {
             new Appointment("Joeys verrückte Fete", "Freibier für alle!", "online",
                     new TimeData(0, 0, 1, 0, 0), new String[]{},
                     new PossibleDate[]{
-                            new PossibleDate(new TimeData(2021,2,28,14,30),new String[]{})},
+                            new PossibleDate(new TimeData(2021,2,28,14,30),new String[]{"Finn"})},
                     new TimeData(2021,2,21,14,0),false,46,1)};
             request.setAttribute("appointments", appointments);
 
