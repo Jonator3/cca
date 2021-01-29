@@ -23,7 +23,7 @@ public class A_Adapter implements IAppointment {
     public Appointment getAppointment(int id) {
         String sql = "SELECT * FROM Appointments WHERE id = ?";
 
-        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+        try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement query = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
                 query.setInt(1,id);
@@ -47,7 +47,7 @@ public class A_Adapter implements IAppointment {
     public boolean editAppointment(int id, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates) {
         String sql = "UPDATE Appointments SET description = ?, location = ?, duration = ?, planned_participants = ?, dates = ? WHERE id = ? AND isFinal = FALSE";
 
-        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+        try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement update = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
                 update.setString(1,description);
@@ -90,7 +90,7 @@ public class A_Adapter implements IAppointment {
     public Appointment[] getEditableAppointments() {
         String sql = "SELECT * FROM Appointments WHERE isFinal = FALSE";
 
-        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+        try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement query = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
                 ResultSet res = query.executeQuery();
@@ -117,7 +117,7 @@ public class A_Adapter implements IAppointment {
     public Integer createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
         String sql = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, group_id)OUTPUT Inserted.id VALUES (?,?,?,?,?,?,?,?,?)";
 
-        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+        try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement insert = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
                 insert.setString(1,name);
@@ -159,7 +159,7 @@ public class A_Adapter implements IAppointment {
     public Appointment[] getGroupAppointments(int id) {
         String sql = "SELECT * FROM Appointments WHERE group_id = ?";
 
-        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+        try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement query = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
                 query.setInt(1,id);
@@ -187,7 +187,7 @@ public class A_Adapter implements IAppointment {
     public boolean finalizeAppointment(int id) {
         String sql = "UPDATE Appointments SET isFinal = TRUE WHERE id = ?";
 
-        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+        try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement update = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
                 update.setInt(1,id);

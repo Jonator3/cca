@@ -1,7 +1,7 @@
 package dbAdapters;
 
 public class Configuration {
-    private static final String SERVER = "144.91.126.232";
+    private static final String SERVER = "www.snakeparty.net";
     private static final String TYPE = "mysql";
     private static final int PORT = 3306;
     private static final String USER = "client";
