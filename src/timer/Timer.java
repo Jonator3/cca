@@ -1,6 +1,7 @@
 package timer;
 
 import application.CCApplication;
+import interfaces.ITimer;
 
 /**
  * Timer class to call a method regularly. Main method
@@ -12,8 +13,7 @@ import application.CCApplication;
 public class Timer {
 
 	public static void main(String[] args) {
-		CCApplication ccApp = new CCApplication();
+		ITimer ccApp = new CCApplication();
 		ccApp.runTimer();
-		System.out.println("nieääääääää");
 	}
 }

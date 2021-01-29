@@ -88,7 +88,29 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public Appointment[] getEditableAppointments() {
-        return new Appointment[0];//TODO
+        String sql = "SELECT * FROM Appointments WHERE isFinal = FALSE";
+
+        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+            try (PreparedStatement query = con.prepareStatement(sql)){
+                con.setAutoCommit(false);
+                ResultSet res = query.executeQuery();
+                con.commit();
+
+                Appointment[] appointments = new Appointment[res.getFetchSize()];
+                for (int i=0;i<appointments.length;i++){
+                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+                    res.next();
+                }
+
+                return appointments;
+            }catch (SQLException e){
+                e.printStackTrace();
+                return null;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -135,7 +157,30 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public Appointment[] getGroupAppointments(int id) {
-        return new Appointment[0];//TODO
+        String sql = "SELECT * FROM Appointments WHERE group_id = ?";
+
+        try (Connection con = DriverManager.getConnection("jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":" + Configuration.getPORT() + "/" + Configuration.getDATABASE(), Configuration.getUSER(), Configuration.getPASSWORD())) {
+            try (PreparedStatement query = con.prepareStatement(sql)){
+                con.setAutoCommit(false);
+                query.setInt(1,id);
+                ResultSet res = query.executeQuery();
+                con.commit();
+
+                Appointment[] appointments = new Appointment[res.getFetchSize()];
+                for (int i=0;i<appointments.length;i++){
+                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+                    res.next();
+                }
+
+                return appointments;
+            }catch (SQLException e){
+                e.printStackTrace();
+                return null;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -161,6 +206,7 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public boolean addSelectionToAppointment(int id, String participant, TimeData[] dates) {
+        Appointment a = getAppointment(id);
         return false;//TODO
     }
 }
