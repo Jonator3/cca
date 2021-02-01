@@ -54,8 +54,8 @@ private static IAppointment a_adapter = A_Adapter.getInstance();
     }
 
     @Override
-    public boolean selectDates(int id, String participant, TimeData[] dates) {
-        return a_adapter.addSelectionToAppointment(id, participant, dates);
+    public boolean selectDate(int id, String participant, TimeData date) {
+        return a_adapter.addSelectionToAppointment(id, participant, date);
     }
 
     @Override

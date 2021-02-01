@@ -38,7 +38,12 @@
                         </#list>
 
                         <div class="attribute">answer appointment</div>
-                        <form><input type="submit" value="Participate"></form>
+                        <form method="post" action="/calendar">
+                            <input type="hidden" value="selectDate" name="action">
+                            <input type="hidden" name="AId" value="${a.getId()}">
+                            <input type="hidden" name="SelectedDate" value="${pd.getDate().toString()}">
+                            <input type="text" name="MyName">
+                            <input type="submit" value="Participate"></form>
                     </div>
                 </div>
             </#list>

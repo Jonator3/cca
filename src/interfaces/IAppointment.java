@@ -12,6 +12,6 @@ public interface IAppointment {
     Appointment[] getGroupAppointments(int id);
     Appointment[] getEditableAppointments();
     boolean finalizeAppointment(int id);
-    boolean addSelectionToAppointment(int id, String participant, TimeData[] dates);
+    boolean addSelectionToAppointment(int id, String participant, TimeData date);
 
 }
