@@ -62,7 +62,7 @@ public class MemberGUI extends HttpServlet {
             int groupid = Integer.parseInt(request.getParameter("groupid"));
 
             Appointment[] appointments = new Appointment[] {
-            new Appointment("Joeys verrückte Fete", "Freibier für alle!", "online",
+            new Appointment("Joeys verrÃ¼ckte Fete", "Freibier fÃ¼r alle!", "online",
                     new TimeData(0, 0, 1, 0, 0), new String[]{},
                     new PossibleDate[]{
                             new PossibleDate(new TimeData(2021,2,28,14,30),new String[]{"Finn"})},
