@@ -70,6 +70,7 @@ public class A_Adapter implements IAppointment {
                     pd += dates[i].toString();
                 }
                 update.setString(5,pd);
+                update.setInt(6,id);
                 int res = update.executeUpdate();
                 con.commit();
 
@@ -89,16 +90,18 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public Appointment[] getEditableAppointments() {
-        String sql = "SELECT * FROM Appointments WHERE isFinal = FALSE";
+        String sql = "SELECT * FROM Appointments WHERE isFinal = 0";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement query = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
                 ResultSet res = query.executeQuery();
                 con.commit();
+                res.last();
+                int rows = res.getRow();
 
                 res.first();
-                Appointment[] appointments = new Appointment[res.getFetchSize()];
+                Appointment[] appointments = new Appointment[rows];
                 for (int i=0;i<appointments.length;i++){
                     appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("groupid"));
                     res.next();
@@ -164,9 +167,11 @@ public class A_Adapter implements IAppointment {
                 query.setInt(1,id);
                 ResultSet res = query.executeQuery();
                 con.commit();
+                res.last();
+                int rows = res.getRow();
 
                 res.first();
-                Appointment[] appointments = new Appointment[res.getFetchSize()];
+                Appointment[] appointments = new Appointment[rows];
                 for (int i=0;i<appointments.length;i++){
                     appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("groupid"));
                     res.next();
