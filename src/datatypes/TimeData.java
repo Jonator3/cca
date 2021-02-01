@@ -57,7 +57,7 @@ public class TimeData {
     @Override
     public String toString() {
         String temp = day + ":" + month + ":" + year + ":" + hour + ":" + min;
-        return temp + min;
+        return temp;
     }
 
     public boolean isBefore(TimeData other){
