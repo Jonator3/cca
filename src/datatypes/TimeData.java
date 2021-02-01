@@ -59,6 +59,10 @@ public class TimeData {
         String temp = day + ":" + month + ":" + year + ":" + hour + ":" + min;
         return temp + min;
     }
+    
+    public String toDisplayString() {
+    	return (year != 0 ? "year: "+year+" " : "")+(month != 0 ? "month: "+month+" " : "")+(day != 0 ? "day"+day+" " : "")+(hour != 0 ? "hour"+hour+" " : "");
+    }
 
     public boolean isBefore(TimeData other){
         if (this.year < other.year){
