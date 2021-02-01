@@ -1,5 +1,7 @@
 package datatypes;
 
+import java.util.Arrays;
+
 public class PossibleDate {
     private TimeData date;
     private String[] possible_participants;
@@ -37,5 +39,9 @@ public class PossibleDate {
 
     public String[] getPossible_participants() {
         return possible_participants;
+    }
+    
+    public String toDisplayString() {
+    	return date.toDisplayString()+": "+Arrays.toString(possible_participants);
     }
 }

@@ -1,5 +1,7 @@
 package datatypes;
 
+import java.util.Arrays;
+
 public class Appointment {
 
     private String name;
@@ -121,5 +123,14 @@ public class Appointment {
 
     public void setGroup_id(int group_id) {
         this.group_id = group_id;
+    }
+    
+    public String toDisplayString() {
+    	String datesStr = "";
+    	for(int i=0; i<dates.length-1; i++) {
+    		datesStr += dates[i].toDisplayString()+", ";
+    	}
+    	datesStr += dates[dates.length-1].toDisplayString();
+    	return "Appointment "+name+"_"+id+" of Group "+group_id+": "+location+"; description: "+description+"; possible Dates: "+datesStr+"; plannedParticipants: "+Arrays.toString(planned_participants)+"; deadLine: "+deadline.toDisplayString()+"; duration: "+duration.toDisplayString()+"; isFinal: "+isFinal+";";
     }
 }
