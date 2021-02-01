@@ -59,7 +59,7 @@ private static IAppointment a_adapter = A_Adapter.getInstance();
     }
 
     @Override
-    public int createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
-        return a_adapter.createAppointment(name,description,location,duration,planned_participants,dates,deadline,group_id);
+    public void createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
+        a_adapter.createAppointment(name,description,location,duration,planned_participants,dates,deadline,group_id);
     }
 }

@@ -20,6 +20,24 @@ public class MemberGUI extends HttpServlet {
         //TODO
         String action = request.getParameter("action");
         if("viewCalendar".equals(action)) {
+            if(request.getParameter("groupid") == null) {
+                try {
+                    request.setAttribute("pagetitle", "Group Calender");
+                    request.getRequestDispatcher("/templates/calendarAccess.ftl").forward(request, response);
+                } catch (ServletException | IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                doPost(request, response);
+            }
+
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+        //TODO
+        String action = request.getParameter("action");
+        if("viewCalendar".equals(action)) {
             request.setAttribute("pagetitle", "Group Calender");
             if(request.getParameter("groupid") == null) {
                 request.setAttribute("errormessage", "Attribute error: Please don't forget the groupid!");
@@ -29,27 +47,24 @@ public class MemberGUI extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            int groupid = Integer.parseInt(request.getParameter("groupid"));
+
             Appointment[] appointments = new Appointment[] {
             new Appointment("Joeys verrückte Fete", "Freibier für alle!", "online",
                     new TimeData(0, 0, 1, 0, 0), new String[]{},
                     new PossibleDate[]{
                             new PossibleDate(new TimeData(2021,2,28,14,30),new String[]{"Finn"})},
                     new TimeData(2021,2,21,14,0),false,46,1)};
-            request.setAttribute("appointments", appointments);
+            //request.setAttribute("appointments", appointments);
 
+            request.setAttribute("appointments", (new CCApplication()).getGroupAppointments(groupid));
             try {
                 request.getRequestDispatcher("/templates/calendar.ftl").forward(request, response);
             } catch(ServletException | IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response){
-        //TODO
-        String action = request.getParameter("action");
-        if("selectDate".equals(action)) {
-            request.setAttribute("pagetitle", "select Date");
+        } else if("selectDate".equals(action)) {
+            request.setAttribute("pagetitle", "Select Date");
             int AId = Integer.parseInt(request.getParameter("AId"));
             String SelectedDate = request.getParameter("SelectedDate");
             TimeData Selected_Date = new TimeData(SelectedDate);

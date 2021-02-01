@@ -30,7 +30,8 @@ public class A_Adapter implements IAppointment {
                 ResultSet res = query.executeQuery();
                 con.commit();
 
-                Appointment a = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+                res.first();
+                Appointment a = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("groupid"));
 
                 return a;
             }catch (SQLException e){
@@ -69,6 +70,7 @@ public class A_Adapter implements IAppointment {
                     pd += dates[i].toString();
                 }
                 update.setString(5,pd);
+                update.setInt(6,id);
                 int res = update.executeUpdate();
                 con.commit();
 
@@ -88,17 +90,20 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public Appointment[] getEditableAppointments() {
-        String sql = "SELECT * FROM Appointments WHERE isFinal = FALSE";
+        String sql = "SELECT * FROM Appointments WHERE isFinal = 0";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement query = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
                 ResultSet res = query.executeQuery();
                 con.commit();
+                res.last();
+                int rows = res.getRow();
 
-                Appointment[] appointments = new Appointment[res.getFetchSize()];
+                res.first();
+                Appointment[] appointments = new Appointment[rows];
                 for (int i=0;i<appointments.length;i++){
-                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("groupid"));
                     res.next();
                 }
 
@@ -114,8 +119,8 @@ public class A_Adapter implements IAppointment {
     }
 
     @Override
-    public Integer createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
-        String sql = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, group_id)OUTPUT Inserted.id VALUES (?,?,?,?,?,?,?,?,?)";
+    public void createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
+        String sql = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, groupid) VALUES (?,?,?,?,?,?,?,false,?)";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement insert = con.prepareStatement(sql)){
@@ -142,22 +147,19 @@ public class A_Adapter implements IAppointment {
                 insert.setString(6,pd);
                 insert.setString(7,deadline.toString());
                 insert.setInt(8,group_id);
-                ResultSet res = insert.executeQuery();
+                int id = insert.executeUpdate();
                 con.commit();
-                return res.getInt("id");
             }catch (SQLException e){
                 e.printStackTrace();
-                return null;
             }
         }catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 
     @Override
     public Appointment[] getGroupAppointments(int id) {
-        String sql = "SELECT * FROM Appointments WHERE group_id = ?";
+        String sql = "SELECT * FROM Appointments WHERE groupid = ?";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement query = con.prepareStatement(sql)){
@@ -165,10 +167,13 @@ public class A_Adapter implements IAppointment {
                 query.setInt(1,id);
                 ResultSet res = query.executeQuery();
                 con.commit();
+                res.last();
+                int rows = res.getRow();
 
-                Appointment[] appointments = new Appointment[res.getFetchSize()];
+                res.first();
+                Appointment[] appointments = new Appointment[rows];
                 for (int i=0;i<appointments.length;i++){
-                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("groupid"));
                     res.next();
                 }
 

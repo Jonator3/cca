@@ -1,8 +1,6 @@
 package datatypes;
 
-import org.junit.Test;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class TimeData {
     private int year;
@@ -30,8 +28,8 @@ public class TimeData {
     }
 
     public static TimeData now(){
-        Date date = new Date();
-        return new TimeData(date.getYear(),date.getMonth(), date.getDay(), date.getHours(), date.getMinutes());
+        LocalDateTime date = LocalDateTime.now();
+        return new TimeData(date.getYear(),date.getMonthValue(),date.getDayOfMonth(),date.getHour(),date.getMinute());
     }
 
     public int getDay() {
@@ -56,8 +54,8 @@ public class TimeData {
 
     @Override
     public String toString() {
-        String temp = day + ":" + month + ":" + year + ":" + hour + ":" + min;
-        return temp + min;
+        String temp = year + ":" + month + ":" + day + ":" + hour + ":" + min;
+        return temp;
     }
     
     public String toDisplayString() {
