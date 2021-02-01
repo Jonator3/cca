@@ -59,7 +59,7 @@ public class MemberGUI extends HttpServlet {
                     new TimeData(2021,2,21,14,0),false,46,1)};
             //request.setAttribute("appointments", appointments);
 
-            request.setAttribute("appointments", (new CCApplication()).getGroupAppointments(groupid));
+            request.setAttribute("appointments", CCA.getGroupAppointments(groupid));
             try {
                 request.getRequestDispatcher("/templates/calendar.ftl").forward(request, response);
             } catch(ServletException | IOException e) {
