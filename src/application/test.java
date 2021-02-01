@@ -9,6 +9,9 @@ public class test {
 
     public static void main(String[] args){
         A_Adapter aa = A_Adapter.getInstance();
-        aa.getGroupAppointments(0);
+        Appointment[] appointments = aa.getGroupAppointments(0);
+        for (int i=0;i<appointments.length;i++){
+            System.out.println(appointments[i].toDisplayString());
+        }
     }
 }

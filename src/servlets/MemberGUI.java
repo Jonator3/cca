@@ -4,6 +4,7 @@ import application.CCApplication;
 import datatypes.Appointment;
 import datatypes.PossibleDate;
 import datatypes.TimeData;
+import interfaces.GMCmds;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class MemberGUI extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private static GMCmds CCA = new CCApplication();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
         //TODO
@@ -69,7 +71,7 @@ public class MemberGUI extends HttpServlet {
             String SelectedDate = request.getParameter("SelectedDate");
             TimeData Selected_Date = new TimeData(SelectedDate);
             String MyName = request.getParameter("MyName");
-            boolean success = (new CCApplication()).selectDate(AId, MyName, Selected_Date);
+            boolean success = CCA.selectDate(AId, MyName, Selected_Date);
             if(success){
                 request.setAttribute("success", "it worked!");
             } else {
