@@ -107,14 +107,14 @@ public class MemberGUI extends HttpServlet {
         	String posDatesTime = request.getParameter("posDatesTime");
         	String deadline = request.getParameter("deadline");
         	String group_id = request.getParameter("group_id");
-        	TimeData dateDT = new TimeData(0, 0, 0, Integer.parseInt(date.split(":")[0]), Integer.parseInt(date.split(":")[1]));
-        	TimeData posDatesDT = new TimeData(Integer.parseInt(posDates.split("-")[0]), Integer.parseInt(posDates.split("-")[1]), Integer.parseInt(posDates.split("-")[2]), Integer.parseInt(posDates.split(":")[0]), Integer.parseInt(posDates.split(":")[1]));
-        	TimeData deadlineDT = new TimeData(Integer.parseInt(deadline.split("-")[0]), Integer.parseInt(deadline.split("-")[1]), Integer.parseInt(deadline.split("-")[2]), 0, 0);
-        	int groupid = Integer.parseInt(group_id);
-        	System.out.println("date: "+date);
+        	/*System.out.println("date: "+date);
         	System.out.println("posDates: "+posDates);
         	System.out.println("posDatesTime: "+posDatesTime);
-        	System.out.println("deadline: "+deadline);
+        	System.out.println("deadline: "+deadline);*/
+        	TimeData dateDT = new TimeData(0, 0, 0, Integer.parseInt(date.split(":")[0]), Integer.parseInt(date.split(":")[1]));
+        	TimeData deadlineDT = new TimeData(Integer.parseInt(deadline.split("-")[0]), Integer.parseInt(deadline.split("-")[1]), Integer.parseInt(deadline.split("-")[2]), 0, 0);
+        	TimeData posDatesDT = new TimeData(Integer.parseInt(posDates.split("-")[0]), Integer.parseInt(posDates.split("-")[1]), Integer.parseInt(posDates.split("-")[2]), Integer.parseInt(posDatesTime.split(":")[0]), Integer.parseInt(posDatesTime.split(":")[1]));
+        	int groupid = Integer.parseInt(group_id);
         	CCA.createAppointment(name, descr, loc, dateDT, new String[] {plannedParticipants}, new PossibleDate[] {new PossibleDate(posDatesDT, new String[] {plannedParticipants})}, deadlineDT,groupid);
         	
         	try {
