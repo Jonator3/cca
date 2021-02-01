@@ -131,6 +131,6 @@ public class Appointment {
     		datesStr += dates[i].toDisplayString()+", ";
     	}
     	datesStr += dates[dates.length-1].toDisplayString();
-    	return "Appointment "+name+"_"+id+" of Group "+group_id+": "+location+"; description: "+description+"; possible Dates: "+datesStr+"; plannedParticipants: "+Arrays.toString(planned_participants)+"; deadLine: "+deadline.toDisplayString()+"; duration: "+duration.toDisplayString()+"; isFinal: "+isFinal+";";
+    	return "Appointment "+id+": "+name+" of Group "+group_id+": "+location+"; description: "+description+"; possible Dates: "+datesStr+"; plannedParticipants: "+Arrays.toString(planned_participants)+"; deadLine: "+deadline.toDisplayString()+"; duration: "+duration.toDisplayString()+"; isFinal: "+isFinal+";";
     }
 }
