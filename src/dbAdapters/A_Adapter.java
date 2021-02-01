@@ -15,6 +15,11 @@ public class A_Adapter implements IAppointment {
     public static A_Adapter getInstance(){
         if (instance == null){
             instance = new A_Adapter();
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         return instance;
     }
