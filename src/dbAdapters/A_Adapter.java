@@ -159,7 +159,7 @@ public class A_Adapter implements IAppointment {
 
     @Override
     public Appointment[] getGroupAppointments(int id) {
-        String sql = "SELECT * FROM Appointments WHERE group_id = ?";
+        String sql = "SELECT * FROM Appointments WHERE groupid = ?";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement query = con.prepareStatement(sql)){
