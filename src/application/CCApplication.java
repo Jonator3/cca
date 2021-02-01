@@ -24,7 +24,7 @@ private static IAppointment a_adapter = A_Adapter.getInstance();
         // entry Point of CCA_ASAD
         Appointment[] appointments = a_adapter.getEditableAppointments();
 
-        for (int i=0;i<appointments.length;i++){
+        for(int i=0;i<appointments.length;i++){
             Appointment a = appointments[i];
             PossibleDate best = null;
             PossibleDate[] dates = a.getDates();

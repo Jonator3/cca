@@ -50,13 +50,19 @@
         </#list>
 
         <div class="popup">
-            <form>
-                <select>
+            <form method="post" action="/calendar">
+                <input type="hidden" value="suggestDate" name="action">
+                <div class="attribute">appointment</div>
+                <select name="AId">
                     <#list appointments as a>
                         <option value="${a.getId()}">${a.getName()}</option>
                     </#list>
                 </select><br>
-                <input type="time" value="12:00"><br>
+                <div class="attribute">date</div>
+                <input type="date" class="autofilldate" name="date">
+                <div class="attribute">time</div>
+                <input type="time" value="12:00" name="time">
+                <div class="attribute">submit</div>
                 <input type="submit" value="suggest date">
             </form>
         </div>
