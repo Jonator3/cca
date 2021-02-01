@@ -1,5 +1,6 @@
 package servlets;
 
+import application.CCApplication;
 import datatypes.Appointment;
 import datatypes.PossibleDate;
 import datatypes.TimeData;
@@ -46,5 +47,24 @@ public class MemberGUI extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response){
         //TODO
+        String action = request.getParameter("action");
+        if("selectDate".equals(action)) {
+            request.setAttribute("pagetitle", "select Date");
+            int AId = Integer.parseInt(request.getParameter("AId"));
+            String SelectedDate = request.getParameter("SelectedDate");
+            TimeData Selected_Date = new TimeData(SelectedDate);
+            String MyName = request.getParameter("MyName");
+            boolean success = (new CCApplication()).selectDate(AId, MyName, Selected_Date);
+            if(success){
+                request.setAttribute("success", "it worked!");
+            } else {
+                request.setAttribute("success", "it didn't worked!");
+            }
+            try {
+                request.getRequestDispatcher("/templates/dateSelectedSuccess.ftl").forward(request, response);
+            }   catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

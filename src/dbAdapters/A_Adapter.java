@@ -205,7 +205,7 @@ public class A_Adapter implements IAppointment {
     }
 
     @Override
-    public boolean addSelectionToAppointment(int id, String participant, TimeData[] dates) {
+    public boolean addSelectionToAppointment(int id, String participant, TimeData date) {
         Appointment a = getAppointment(id);
         return false;//TODO
     }
