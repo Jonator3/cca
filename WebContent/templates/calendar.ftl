@@ -30,7 +30,7 @@
                         ${a.getLocation()}
 
                         <div class="attribute">duration</div>
-                        ${pd.getDate().toDisplayString()}
+                        ${a.getDuration().toDisplayString()}
 
                         <div class="attribute">participants</div>
                         <#list pd.getPossible_participants() as pp>

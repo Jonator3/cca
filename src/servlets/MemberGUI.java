@@ -56,7 +56,7 @@ public class MemberGUI extends HttpServlet {
                     new TimeData(0, 0, 1, 0, 0), new String[]{},
                     new PossibleDate[]{
                             new PossibleDate(new TimeData(2021,2,28,14,30),new String[]{"Finn"})},
-                    new TimeData(2021,2,21,14,0),false,46,1)};
+                    new TimeData(0,0,0,1,30),false,46,1)};
             //request.setAttribute("appointments", appointments);
 
             request.setAttribute("appointments", CCA.getGroupAppointments(groupid));
@@ -82,6 +82,12 @@ public class MemberGUI extends HttpServlet {
             }   catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
+        } else if("suggestDate".equals(action)) {
+            request.setAttribute("pagetitle", "Select Date");
+            int AId = Integer.parseInt(request.getParameter("AId"));
+            //TODO...
+        } else if("addAppointment".equals(action)) {
+
         }
     }
 }
