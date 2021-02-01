@@ -61,7 +61,7 @@ public class TimeData {
     }
     
     public String toDisplayString() {
-    	return (year != 0 ? "year: "+year+" " : "")+(month != 0 ? "month: "+month+" " : "")+(day != 0 ? "day"+day+" " : "")+(hour != 0 ? "hour"+hour+" " : "");
+    	return (year != 0 ? "year: "+year+" " : "")+(month != 0 ? "month: "+month+" " : "")+(day != 0 ? "day: "+day+" " : "")+(hour != 0 ? "hour: "+hour+" " : "")+(min != 0 ? "min: "+min : "");
     }
 
     public boolean isBefore(TimeData other){
