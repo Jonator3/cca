@@ -6,9 +6,9 @@
     </style>
     
     <form>
-    	<label for="1">Name:</label><br>
+    	<label for="1">Name: </label><br>
     	<input type="text" id="1" name="Name"><br>
-    	<label for="2">description:</label><br>
+    	<label for="2">description: </label><br>
     	<input type="text" id="2" name="descr"><br>
     	<label for="3">Location:</label><br>
     	<input type="text" id="3" name="loc"><br>
