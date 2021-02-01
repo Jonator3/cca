@@ -12,7 +12,7 @@ import datatypes.TimeData;
  */
 
 public interface GMCmds {
-   int createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline,int group_id);
+   void createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline,int group_id);
    boolean selectDate(int id, String participant, TimeData date);
    Appointment[] getGroupAppointments(int id);
 }

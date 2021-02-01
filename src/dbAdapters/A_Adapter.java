@@ -114,8 +114,8 @@ public class A_Adapter implements IAppointment {
     }
 
     @Override
-    public Integer createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
-        String sql = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, groupid)VALUES (?,?,?,?,?,?,?,false,?)";
+    public void createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline, int group_id) {
+        String sql = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, groupid) VALUES (?,?,?,?,?,?,?,false,?)";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement insert = con.prepareStatement(sql)){
@@ -142,16 +142,13 @@ public class A_Adapter implements IAppointment {
                 insert.setString(6,pd);
                 insert.setString(7,deadline.toString());
                 insert.setInt(8,group_id);
-                insert.executeUpdate();
+                int id = insert.executeUpdate();
                 con.commit();
-                return null; // TODO
             }catch (SQLException e){
                 e.printStackTrace();
-                return null;
             }
         }catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 
