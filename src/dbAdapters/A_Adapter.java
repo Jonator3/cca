@@ -30,7 +30,8 @@ public class A_Adapter implements IAppointment {
                 ResultSet res = query.executeQuery();
                 con.commit();
 
-                Appointment a = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+                res.first();
+                Appointment a = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("groupid"));
 
                 return a;
             }catch (SQLException e){
@@ -96,9 +97,10 @@ public class A_Adapter implements IAppointment {
                 ResultSet res = query.executeQuery();
                 con.commit();
 
+                res.first();
                 Appointment[] appointments = new Appointment[res.getFetchSize()];
                 for (int i=0;i<appointments.length;i++){
-                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("groupid"));
                     res.next();
                 }
 
@@ -163,9 +165,10 @@ public class A_Adapter implements IAppointment {
                 ResultSet res = query.executeQuery();
                 con.commit();
 
+                res.first();
                 Appointment[] appointments = new Appointment[res.getFetchSize()];
                 for (int i=0;i<appointments.length;i++){
-                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("group_id"));
+                    appointments[i] = new Appointment(res.getString("name"),res.getString("description"),res.getString("location"),res.getString("duration"),res.getString("planned_participants"),res.getString("dates"),res.getString("deadline"),res.getBoolean("isFinal"),res.getInt("id"),res.getInt("groupid"));
                     res.next();
                 }
 

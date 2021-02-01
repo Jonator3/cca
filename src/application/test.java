@@ -13,8 +13,8 @@ public class test {
         pp[0] = "dummy";
         PossibleDate[] pd = new PossibleDate[1];
         pd[0] = new PossibleDate(new TimeData(2021,2,11,12,0),pp);
-        int id = aa.createAppointment("test2","just a second test","nowhere",new TimeData(0,0,0,1,45),pp,pd,new TimeData(2021,2,8,8,0),0);
-        //Appointment a = aa.getAppointment(1);
-        System.out.println(id);
+        aa.createAppointment("test2","just a second test","nowhere",new TimeData(0,0,0,1,45),pp,pd,new TimeData(2021,2,8,8,0),0);
+        Appointment a = aa.getAppointment(1);
+        System.out.println(a.toDisplayString());
     }
 }

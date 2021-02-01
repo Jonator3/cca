@@ -56,7 +56,7 @@ public class TimeData {
 
     @Override
     public String toString() {
-        String temp = day + ":" + month + ":" + year + ":" + hour + ":" + min;
+        String temp = year + ":" + month + ":" + day + ":" + hour + ":" + min;
         return temp;
     }
     
