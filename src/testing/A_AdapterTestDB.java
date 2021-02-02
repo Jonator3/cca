@@ -6,7 +6,7 @@ import org.junit.Before;
 
 public class A_AdapterTestDB extends TestCase {
 
-    private Appointment testHO;
+    private Appointment testA;
     private Booking testB;
 
     /**
@@ -15,14 +15,14 @@ public class A_AdapterTestDB extends TestCase {
     @Before
     public void setUp() {
 
-        // HolidayOffer object to be tested
-        testHO = new HolidayOffer(1, Timestamp.valueOf("2021-01-01 00:00:00"), Timestamp.valueOf("2021-12-31 00:00:00"),
+        // Appointment object to be tested
+        testA = new HolidayOffer(1, Timestamp.valueOf("2021-01-01 00:00:00"), Timestamp.valueOf("2021-12-31 00:00:00"),
                 new AddressData("Oststr.99", "Duisburg"), 3, 50);
         testB = new Booking(1, Timestamp.valueOf("2021-01-01 00:00:00"), Timestamp.valueOf("2021-02-01 00:00:00"),
                 Timestamp.valueOf("2021-02-28 00:00:00"), true, new GuestData("Peter", "peter@peter.de"), 1350, 1);
         ArrayList<Booking> testBookings = new ArrayList<Booking>();
         testBookings.add(testB);
-        testHO.setBookings(testBookings);
+        testA.setBookings(testBookings);
 
         // SQL statements
         String sqlCleanDB = "DROP TABLE IF EXISTS booking,holidayoffer";
@@ -48,13 +48,13 @@ public class A_AdapterTestDB extends TestCase {
                 psCreateHolidayOffer.executeUpdate();
             }
             try (PreparedStatement psInsertOffer = connection.prepareStatement(sqlInsertOffer)) {
-                psInsertOffer.setInt(1, testHO.getId());
-                psInsertOffer.setTimestamp(2, testHO.getStartTime());
-                psInsertOffer.setTimestamp(3, testHO.getEndTime());
-                psInsertOffer.setString(4, testHO.getAddressData().getStreet());
-                psInsertOffer.setString(5, testHO.getAddressData().getTown());
-                psInsertOffer.setInt(6, testHO.getCapacity());
-                psInsertOffer.setDouble(7, testHO.getFee());
+                psInsertOffer.setInt(1, testA.getId());
+                psInsertOffer.setTimestamp(2, testA.getStartTime());
+                psInsertOffer.setTimestamp(3, testA.getEndTime());
+                psInsertOffer.setString(4, testA.getAddressData().getStreet());
+                psInsertOffer.setString(5, testA.getAddressData().getTown());
+                psInsertOffer.setInt(6, testA.getCapacity());
+                psInsertOffer.setDouble(7, testA.getFee());
                 psInsertOffer.executeUpdate();
             }
             try (PreparedStatement psInsertBooking = connection.prepareStatement(sqlInsertBooking)) {
@@ -90,9 +90,9 @@ public class A_AdapterTestDB extends TestCase {
 
         // Verify return values
         assertTrue(hos.size() == 1);
-        assertTrue(hos.get(0).getId() == testHO.getId());
+        assertTrue(hos.get(0).getId() == testA.getId());
         assertTrue(hos.get(0).getBookings().size() == 1);
-        assertTrue(hos.get(0).getFee() == testHO.getFee());
+        assertTrue(hos.get(0).getFee() == testA.getFee());
         // ...
 
     }

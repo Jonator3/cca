@@ -10,14 +10,23 @@ import interfaces.ITimer;
 
 public class CCApplication implements ITimer, GMCmds {
 
-/**
- *
- * @author Team_19
- * github: www.github.com/Jonator3/cca
- *
- */
+    /**
+    *
+    * @author Team_19
+    * github: www.github.com/Jonator3/cca
+    *
+    */
 
-private static IAppointment a_adapter = A_Adapter.getInstance();
+    private static CCApplication instance;
+    private static IAppointment a_adapter = A_Adapter.getInstance();
+
+    public static CCApplication getInstance() {
+        if (instance == null) {
+            instance = new CCApplication();
+        }
+
+        return instance;
+    }
 
     @Override
     public void runTimer() {

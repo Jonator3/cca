@@ -14,16 +14,16 @@ public class MemberGUIWebTestCase {
     @Before
     public void prepare() {
         tester = new WebTester();
-        tester.setBaseUrl("http://localhost:8080/VR/");
+        tester.setBaseUrl("http://localhost:8080/");
     }
 
     @Test
     public void testBrowseHolidayOffers() {
-        // Start testing for guestgui
-        tester.beginAt("guestgui");
+        // Start testing for MemberGUI
+        tester.beginAt("calendar?action=viewCalendar");
 
         // Check all components of the search form
-        tester.assertTitleEquals("VacationRental - Search Offers");
+        tester.assertTitleEquals("CCA - Group Calendar");
         tester.assertFormPresent();
         tester.assertTextPresent("Required Information");
         tester.assertTextPresent("Arrival Time");

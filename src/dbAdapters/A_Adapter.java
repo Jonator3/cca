@@ -23,6 +23,9 @@ public class A_Adapter implements IAppointment {
         }
         return instance;
     }
+    public static void setInstance(A_Adapter instance_) {
+        instance = instance_;
+    }
 
     @Override
     public Appointment getAppointment(int id) {
