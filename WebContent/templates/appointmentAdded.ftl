@@ -1,5 +1,5 @@
 <#include "header.ftl">
 
-<div class="success">${message}</div>
+<div class="success">appointment added</div>
 
 <#include "footer.ftl">

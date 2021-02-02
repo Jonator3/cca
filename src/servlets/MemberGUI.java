@@ -84,6 +84,10 @@ public class MemberGUI extends HttpServlet {
             boolean success = CCA.selectDate(AId, MyName, Selected_Date);
             if(success){
                 request.setAttribute("success", "it worked!");
+
+                //Redirect to index like defined in statemachine and lifecycle
+                response.setStatus(308);
+                response.setHeader("Location", "index");
             } else {
                 request.setAttribute("success", "it didn't worked!");
             }
@@ -116,9 +120,12 @@ public class MemberGUI extends HttpServlet {
         	TimeData posDatesDT = new TimeData(Integer.parseInt(posDates.split("-")[0]), Integer.parseInt(posDates.split("-")[1]), Integer.parseInt(posDates.split("-")[2]), Integer.parseInt(posDatesTime.split(":")[0]), Integer.parseInt(posDatesTime.split(":")[1]));
         	int groupid = Integer.parseInt(group_id);
         	CCA.createAppointment(name, descr, loc, dateDT, new String[] {plannedParticipants}, new PossibleDate[] {new PossibleDate(posDatesDT, new String[] {plannedParticipants})}, deadlineDT,groupid);
-        	
+
+        	//Redirect to index like defined in statemachine and lifecycle
+            response.setStatus(308);
+            response.setHeader("Location", "index");
         	try {
-                request.getRequestDispatcher("/templates/index.ftl").forward(request, response);
+                request.getRequestDispatcher("/templates/appointmentAdded.ftl").forward(request, response);
             }   catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
