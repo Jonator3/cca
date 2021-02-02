@@ -26,7 +26,7 @@ public class A_AdapterTestDB extends TestCase {
     public void setUp() {
 
         // Appointment object to be tested
-        testA = new Appointment("test","test234","somewhere",new TimeData(0,0,0,1,0),new String[]{"dummy", "dummy2"},new PossibleDate[]{new PossibleDate(new TimeData(2021,2,11,12,0),new String[]{"dummy"})},new TimeData(2021,2,7,0,0),false,0,0)
+        testA = new Appointment("test","test234","somewhere",new TimeData(0,0,0,1,0),new String[]{"dummy", "dummy2"},new PossibleDate[]{new PossibleDate(new TimeData(2021,2,11,12,0),new String[]{"dummy"})},new TimeData(2021,2,7,0,0),false,0,0);
 
         // SQL statements
         String sqlCleanDB = "DROP TABLE IF EXISTS Appointment";
