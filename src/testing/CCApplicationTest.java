@@ -11,7 +11,7 @@ public class CCApplicationTest extends TestCase {
     }
 
     @Test
-    public void testrunTimer() {
+    public void testRunTimer() {
         DBFacade stub = mock(DBFacade.class);
         DBFacade.setInstance(stub);
 
