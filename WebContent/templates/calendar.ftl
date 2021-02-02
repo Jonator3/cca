@@ -32,7 +32,8 @@
                         <div class="attribute">location</div>
                         ${a.getLocation()}
 
-                        <div class="attribute">duration</div>
+                        <div class="attribute">time, duration</div>
+                        ${pd.getDate().toTimeString()},
                         ${a.getDuration().toDisplayString()}
 
                         <div class="attribute">participants</div>

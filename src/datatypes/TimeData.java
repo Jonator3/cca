@@ -63,6 +63,10 @@ public class TimeData {
                 (day != 0 ? day+" day(s) " : "")+(hour != 0 ? hour+" hour(s) " : "")+(min != 0 ? min+" min(s)": "");
     }
 
+    public String toTimeString() {
+        return (getHour()>9?getHour()+"":"0"+getHour())+":"+(getMin()>9?getMin()+"":"0"+getMin());
+    }
+
     public boolean isBefore(TimeData other){
         if (this.year < other.year){
             return true;
