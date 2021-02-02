@@ -1,13 +1,23 @@
 package testing;
 
 import datatypes.Appointment;
+import datatypes.PossibleDate;
+import datatypes.TimeData;
+import dbAdapters.A_Adapter;
+import dbAdapters.Configuration;
 import junit.framework.TestCase;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 
 public class A_AdapterTestDB extends TestCase {
 
     private Appointment testA;
-    private Booking testB;
 
     /**
      * Preparing classes with static methods
@@ -16,58 +26,50 @@ public class A_AdapterTestDB extends TestCase {
     public void setUp() {
 
         // Appointment object to be tested
-        testA = new HolidayOffer(1, Timestamp.valueOf("2021-01-01 00:00:00"), Timestamp.valueOf("2021-12-31 00:00:00"),
-                new AddressData("Oststr.99", "Duisburg"), 3, 50);
-        testB = new Booking(1, Timestamp.valueOf("2021-01-01 00:00:00"), Timestamp.valueOf("2021-02-01 00:00:00"),
-                Timestamp.valueOf("2021-02-28 00:00:00"), true, new GuestData("Peter", "peter@peter.de"), 1350, 1);
-        ArrayList<Booking> testBookings = new ArrayList<Booking>();
-        testBookings.add(testB);
-        testA.setBookings(testBookings);
+        testA = new Appointment("test","test234","somewhere",new TimeData(0,0,0,1,0),new String[]{"dummy", "dummy2"},new PossibleDate[]{new PossibleDate(new TimeData(2021,2,11,12,0),new String[]{"dummy"})},new TimeData(2021,2,7,0,0),false,0,0)
 
         // SQL statements
-        String sqlCleanDB = "DROP TABLE IF EXISTS booking,holidayoffer";
-        String sqlCreateTableBooking = "CREATE TABLE booking (id int(11) NOT NULL AUTO_INCREMENT, creationDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, arrivalTime timestamp NOT NULL DEFAULT '0000-00-00 00:00:00', departureTime timestamp NOT NULL DEFAULT '0000-00-00 00:00:00', paid tinyint(1) NOT NULL, name varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, email varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, price double NOT NULL,hid int(11) NOT NULL, PRIMARY KEY(id));";
-        String sqlCreateTableHolidayOffer = "CREATE TABLE holidayoffer (id int(11) NOT NULL AUTO_INCREMENT, startTime timestamp NOT NULL DEFAULT '0000-00-00 00:00:00', endTime timestamp NOT NULL DEFAULT '0000-00-00 00:00:00', street varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, town varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, capacity int(11) NOT NULL, fee double NOT NULL, PRIMARY KEY (id));";
-        String sqlInsertOffer = "INSERT INTO holidayoffer (id,startTime,endTime,street,town,capacity,fee) VALUES (?,?,?,?,?,?,?)";
-        String sqlInsertBooking = "INSERT INTO booking (id,creationdate,arrivalTime,departureTime,paid,name,email,price,hid) VALUES (?,?,?,?,?,?,?,?,?)";
+        String sqlCleanDB = "DROP TABLE IF EXISTS Appointment";
+        String sqlCreateTableAppointments = "CREATE TABLE Appointments( name TEXT NOT NULL , description TEXT NOT NULL , location TEXT NOT NULL , duration TEXT NOT NULL , planned_participants LONGTEXT NOT NULL , dates LONGTEXT NOT NULL , deadline TEXT NOT NULL , isFinal BOOLEAN NOT NULL , id INT NOT NULL AUTO_INCREMENT , groupid INT NOT NULL , PRIMARY KEY (id))";
+        String sqlInsertAppointment = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, groupid) VALUES (?,?,?,?,?,?,?,false,?)";
 
         // Perform database updates
         try (Connection connection = DriverManager
                 .getConnection(
-                        "jdbc:" + Configuration.getType() + "://" + Configuration.getServer() + ":"
-                                + Configuration.getPort() + "/" + Configuration.getDatabase(),
-                        Configuration.getUser(), Configuration.getPassword())) {
+                        "jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":"
+                                + Configuration.getPORT() + "/" + Configuration.getDATABASE(),
+                        Configuration.getUSER(), Configuration.getPASSWORD())) {
 
             try (PreparedStatement psClean = connection.prepareStatement(sqlCleanDB)) {
                 psClean.executeUpdate();
             }
-            try (PreparedStatement psCreateBooking = connection.prepareStatement(sqlCreateTableBooking)) {
+            try (PreparedStatement psCreateBooking = connection.prepareStatement(sqlCreateTableAppointments)) {
                 psCreateBooking.executeUpdate();
             }
-            try (PreparedStatement psCreateHolidayOffer = connection.prepareStatement(sqlCreateTableHolidayOffer)) {
-                psCreateHolidayOffer.executeUpdate();
-            }
-            try (PreparedStatement psInsertOffer = connection.prepareStatement(sqlInsertOffer)) {
-                psInsertOffer.setInt(1, testA.getId());
-                psInsertOffer.setTimestamp(2, testA.getStartTime());
-                psInsertOffer.setTimestamp(3, testA.getEndTime());
-                psInsertOffer.setString(4, testA.getAddressData().getStreet());
-                psInsertOffer.setString(5, testA.getAddressData().getTown());
-                psInsertOffer.setInt(6, testA.getCapacity());
-                psInsertOffer.setDouble(7, testA.getFee());
-                psInsertOffer.executeUpdate();
-            }
-            try (PreparedStatement psInsertBooking = connection.prepareStatement(sqlInsertBooking)) {
-                psInsertBooking.setInt(1, testB.getId());
-                psInsertBooking.setTimestamp(2, testB.getCreationDate());
-                psInsertBooking.setTimestamp(3, testB.getArrivalTime());
-                psInsertBooking.setTimestamp(4, testB.getDepartureTime());
-                psInsertBooking.setBoolean(5, testB.isPaid());
-                psInsertBooking.setString(6, testB.getGuestData().getName());
-                psInsertBooking.setString(7, testB.getGuestData().getEmail());
-                psInsertBooking.setDouble(8, testB.getPrice());
-                psInsertBooking.setInt(9, testB.getHid());
-                psInsertBooking.executeUpdate();
+            try (PreparedStatement psInsertAppointment = connection.prepareStatement(sqlInsertAppointment)) {
+                psInsertAppointment.setString(1,testA.getName());
+                psInsertAppointment.setString(2,testA.getDescription());
+                psInsertAppointment.setString(3,testA.getLocation());
+                psInsertAppointment.setString(4,testA.getDuration().toString());
+                String pp = "";
+                for (int i=0;i<testA.getPlanned_participants().length;i++){
+                    if (i!=0){
+                        pp += ",";
+                    }
+                    pp += testA.getPlanned_participants()[i];
+                }
+                psInsertAppointment.setString(5,pp);
+                String pd = "";
+                for (int i=0;i<testA.getDates().length;i++){
+                    if (i!=0){
+                        pd += ",";
+                    }
+                    pd += testA.getDates()[i].toString();
+                }
+                psInsertAppointment.setString(6,pd);
+                psInsertAppointment.setString(7,testA.getDeadline().toString());
+                psInsertAppointment.setInt(8,testA.getGroup_id());
+                psInsertAppointment.executeUpdate();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,44 +80,69 @@ public class A_AdapterTestDB extends TestCase {
      * Testing getAvailableHolidayOffers with non-empty results.
      */
     @Test
-    public void testGetAvailableHolidayOffers() {
+    public void testGetGroupAppointments() {
 
         // Select a time where the offer should be available
-        Timestamp arrivalTime = Timestamp.valueOf("2021-03-01 00:00:00");
-        Timestamp departureTime = Timestamp.valueOf("2021-03-15 00:00:00");
-        int persons = 2;
 
-        ArrayList<HolidayOffer> hos = DBFacade.getInstance().getAvailableHolidayOffers(arrivalTime, departureTime,
-                persons);
+
+        Appointment[] appointments = A_Adapter.getInstance().getGroupAppointments(0);
 
         // Verify return values
-        assertTrue(hos.size() == 1);
-        assertTrue(hos.get(0).getId() == testA.getId());
-        assertTrue(hos.get(0).getBookings().size() == 1);
-        assertTrue(hos.get(0).getFee() == testA.getFee());
-        // ...
+        assertTrue(appointments.length == 1);
+        assertTrue(appointments[0].getId() == testA.getId());
+        assertTrue(appointments[0].getName().equals(testA.getName()));
+        assertTrue(appointments[0].getDescription().equals(testA.getDescription()));
+        assertTrue(appointments[0].getLocation().equals(testA.getLocation()));
+        assertTrue(appointments[0].getDuration().equals(testA.getDuration()));
+        assertTrue(appointments[0].getPlanned_participants().equals(testA.getPlanned_participants()));
+        assertTrue(appointments[0].getDates().equals(testA.getDates()));
+        assertTrue(appointments[0].getDeadline().equals(testA.getDeadline()));
+        assertTrue(appointments[0].getGroup_id() == testA.getGroup_id());
+
+        Appointment[] appointments1 = A_Adapter.getInstance().getGroupAppointments(1);
+        assertTrue(appointments1.length == 0);
 
     }
 
-    /**
-     * Testing getAvailableHolidayOffer with empty result.
-     */
     @Test
-    public void testGetAvailableHolidayOffersEmpty() {
+    public void testGetAllAppointments() {
 
-        // Select a time where already a booking exists
-        Timestamp arrivalTime = Timestamp.valueOf("2021-02-15 00:00:00");
-        Timestamp departureTime = Timestamp.valueOf("2021-02-20 00:00:00");
-        int persons = 2;
-
-        ArrayList<HolidayOffer> hos = DBFacade.getInstance().getAvailableHolidayOffers(arrivalTime, departureTime,
-                persons);
+        Appointment[] appointments = A_Adapter.getInstance().getAllAppointments();
 
         // Verify return values
-
-        assertTrue(hos.size() == 0);
+        assertTrue(appointments.length == 1);
+        assertTrue(appointments[0].getId() == testA.getId());
+        assertTrue(appointments[0].getName().equals(testA.getName()));
+        assertTrue(appointments[0].getDescription().equals(testA.getDescription()));
+        assertTrue(appointments[0].getLocation().equals(testA.getLocation()));
+        assertTrue(appointments[0].getDuration().equals(testA.getDuration()));
+        assertTrue(appointments[0].getPlanned_participants().equals(testA.getPlanned_participants()));
+        assertTrue(appointments[0].getDates().equals(testA.getDates()));
+        assertTrue(appointments[0].getDeadline().equals(testA.getDeadline()));
+        assertTrue(appointments[0].getGroup_id() == testA.getGroup_id());
 
     }
+
+    @Test
+    public void testGetAppointment() {
+
+        Appointment appointment = A_Adapter.getInstance().getAppointment(0);
+
+        // Verify return values
+        assertTrue(appointment != null);
+        assertTrue(appointment.getId() == testA.getId());
+        assertTrue(appointment.getName().equals(testA.getName()));
+        assertTrue(appointment.getDescription().equals(testA.getDescription()));
+        assertTrue(appointment.getLocation().equals(testA.getLocation()));
+        assertTrue(appointment.getDuration().equals(testA.getDuration()));
+        assertTrue(appointment.getPlanned_participants().equals(testA.getPlanned_participants()));
+        assertTrue(appointment.getDates().equals(testA.getDates()));
+        assertTrue(appointment.getDeadline().equals(testA.getDeadline()));
+        assertTrue(appointment.getGroup_id() == testA.getGroup_id());
+
+    }
+
+
 
     /**
      * Rest database
@@ -130,9 +157,9 @@ public class A_AdapterTestDB extends TestCase {
         // Perform database updates
         try (Connection connection = DriverManager
                 .getConnection(
-                        "jdbc:" + Configuration.getType() + "://" + Configuration.getServer() + ":"
-                                + Configuration.getPort() + "/" + Configuration.getDatabase(),
-                        Configuration.getUser(), Configuration.getPassword())) {
+                        "jdbc:" + Configuration.getTYPE() + "://" + Configuration.getSERVER() + ":"
+                                + Configuration.getPORT() + "/" + Configuration.getDATABASE(),
+                        Configuration.getUSER(), Configuration.getPASSWORD())) {
 
             try (PreparedStatement psClean = connection.prepareStatement(sqlCleanDB)) {
                 psClean.executeUpdate();
