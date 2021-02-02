@@ -94,8 +94,8 @@ public class A_Adapter implements IAppointment {
     }
 
     @Override
-    public Appointment[] getEditableAppointments() {
-        String sql = "SELECT * FROM Appointments WHERE isFinal = 0";
+    public Appointment[] getAllAppointments() {
+        String sql = "SELECT * FROM Appointments";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement query = con.prepareStatement(sql)){

@@ -22,29 +22,31 @@ private static IAppointment a_adapter = A_Adapter.getInstance();
     @Override
     public void runTimer() {
         // entry Point of CCA_ASAD
-        Appointment[] appointments = a_adapter.getEditableAppointments();
+        Appointment[] appointments = a_adapter.getAllAppointments();
 
         for(int i=0;i<appointments.length;i++){
             Appointment a = appointments[i];
-            PossibleDate best = null;
-            PossibleDate[] dates = a.getDates();
-            for(int n=0;n<dates.length;n++){
-                PossibleDate pd = dates[n];
-                if(best == null){
-                    best = pd;
-                }else if (best.getPossible_participants().length < pd.getPossible_participants().length){
-                    best = pd;
+            if (!a.isFinal()) {
+                PossibleDate best = null;
+                PossibleDate[] dates = a.getDates();
+                for (int n = 0; n < dates.length; n++) {
+                    PossibleDate pd = dates[n];
+                    if (best == null) {
+                        best = pd;
+                    } else if (best.getPossible_participants().length < pd.getPossible_participants().length) {
+                        best = pd;
+                    }
                 }
-            }
-            if (a.getDeadline().isBefore(TimeData.now()) | best.getPossible_participants().length == a.getPlanned_participants().length){
-                PossibleDate[] pd = new PossibleDate[1];
-                pd[0] = best;
-                a_adapter.editAppointment(a.getId(),a.getDescription(),a.getLocation(),a.getDuration(),best.getPossible_participants(),pd);
-                a.setPlanned_participants(best.getPossible_participants());
-                a.setDates(pd);
-                a.setFinal(true);
-                a_adapter.finalizeAppointment(a.getId());
-            }
+                if (a.getDeadline().isBefore(TimeData.now()) | best.getPossible_participants().length == a.getPlanned_participants().length) {
+                    PossibleDate[] pd = new PossibleDate[1];
+                    pd[0] = best;
+                    a_adapter.editAppointment(a.getId(), a.getDescription(), a.getLocation(), a.getDuration(), best.getPossible_participants(), pd);
+                    a.setPlanned_participants(best.getPossible_participants());
+                    a.setDates(pd);
+                    a.setFinal(true);
+                    a_adapter.finalizeAppointment(a.getId());
+                }
+            }// put an else here to delete old entrys
         }
     }
 

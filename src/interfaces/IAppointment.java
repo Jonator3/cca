@@ -10,7 +10,7 @@ public interface IAppointment {
     boolean editAppointment(int id, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates);
     void createAppointment(String name, String description, String location, TimeData duration, String[] planned_participants, PossibleDate[] dates, TimeData deadline,int group_id);
     Appointment[] getGroupAppointments(int id);
-    Appointment[] getEditableAppointments();
+    Appointment[] getAllAppointments();
     boolean finalizeAppointment(int id);
     boolean addSelectionToAppointment(int id, String participant, TimeData date);
 
