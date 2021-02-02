@@ -4,7 +4,7 @@ import datatypes.Appointment;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AppointmentTest {
+public class TimeDataTest {
     Appointment a;
 
     @Before
