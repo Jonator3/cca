@@ -1,107 +1,28 @@
 package testing;
 
-import datatypes.Appointment;
+import datatypes.TimeData;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class TimeDataTest {
-    Appointment a;
+    TimeData td;
 
     @Before
     public void setUp() throws Exception {
-        a = new Appointment(1,
-                Timestamp.valueOf("2008-12-01 00:00:00"),
-                Timestamp.valueOf("2008-12-01 00:00:00"),
-                Timestamp.valueOf("2008-12-07 00:00:00"),
-                true, new GuestData("Mueller","m@uni-due.de"),20, 2);
+        td = new TimeData(2020,6,12,12,0);
     }
 
     @Test
-    public final void testOverlap() {
-        // The arrivalTime of b equals the tested arrivalTime,
-        // the departureTime of b equals the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-12-01 10:00:00"),
-                Timestamp.valueOf("2008-12-07 10:00:00")));
+    public final void testisBefore() {
+        // test when b is before td
+        assertEquals(true, td.isBefore(new TimeData(0,1,1,0,0)));
 
-        // The arrivalTime of b equals the tested arrivalTime,
-        // the departureTime of b is after the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-12-01 10:00:00"),
-                Timestamp.valueOf("2008-12-02 10:00:00")));
+        // test when b is after td
+        assertEquals(true, td.isBefore(new TimeData(2021,1,1,0,0)));
 
-        // The arrivalTime of b equals the tested arrivalTime,
-        // the departureTime of b is before the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-12-01 10:00:00"),
-                Timestamp.valueOf("2008-12-08 10:00:00")));
-
-        // The arrivalTime of b is after the
-        // tested arrivalTime,
-        // the departureTime of b equals the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-11-01 10:00:00"),
-                Timestamp.valueOf("2008-12-07 10:00:00")));
-
-        // The arrivalTime of b is before the
-        // tested arrivalTime,
-        // the departureTime of b equals the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-12-02 10:00:00"),
-                Timestamp.valueOf("2008-12-07 10:00:00")));
-
-        // The arrivalTime of b is after the
-        // tested arrivalTime,
-        // the departureTime of b is after the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-11-01 10:00:00"),
-                Timestamp.valueOf("2008-12-02 10:00:00")));
-
-        // The arrivalTime of b is before the
-        // tested arrivalTime,
-        // the departureTime of b is before the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-12-04 10:00:00"),
-                Timestamp.valueOf("2008-12-08 10:00:00")));
-
-        // The arrivalTime of b is after the
-        // tested arrivalTime,
-        // the departureTime of b is before the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-11-01 10:00:00"),
-                Timestamp.valueOf("2009-01-01 10:00:00")));
-
-        // The arrivalTime of b is before the
-        // tested arrivalTime,
-        // the departureTime of b is after the
-        // tested departureTime
-        assertEquals(true, a.overlap(
-                Timestamp.valueOf("2008-12-02 10:00:00"),
-                Timestamp.valueOf("2008-12-04 10:00:00")));
-
-        // The time period of b is before the
-        // tested time period
-        assertEquals(false, a.overlap(
-                Timestamp.valueOf("2009-01-01 10:00:00"),
-                Timestamp.valueOf("2009-01-04 10:00:00")));
-
-        // The time period of b is after the
-        // tested time period
-        assertEquals(false, a.overlap(
-                Timestamp.valueOf("2007-12-01 10:00:00"),
-                Timestamp.valueOf("2007-12-02 10:00:00")));
-
-        // The arrivalTime is greater than the departureTime
-        assertEquals(false, a.overlap(
-                Timestamp.valueOf("2009-12-01 10:00:00"),
-                Timestamp.valueOf("2010-12-02 10:00:00")));
+        // test when b is equal to td
+        assertEquals(true, td.isBefore(td));
     }
 }
