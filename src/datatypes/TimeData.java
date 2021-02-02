@@ -59,7 +59,12 @@ public class TimeData {
     }
     
     public String toDisplayString() {
-    	return (year != 0 ? "year: "+year+" " : "")+(month != 0 ? "month: "+month+" " : "")+(day != 0 ? "day: "+day+" " : "")+(hour != 0 ? "hour: "+hour+" " : "")+(min != 0 ? "min: "+min : "");
+    	return (year != 0 ? year+" year(s) " : "")+(month != 0 ? month+" month(s) " : "")+
+                (day != 0 ? day+" day(s) " : "")+(hour != 0 ? hour+" hour(s) " : "")+(min != 0 ? min+" min(s)": "");
+    }
+
+    public String toTimeString() {
+        return (getHour()>9?getHour()+"":"0"+getHour())+":"+(getMin()>9?getMin()+"":"0"+getMin());
     }
 
     public boolean isBefore(TimeData other){
