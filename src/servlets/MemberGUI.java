@@ -19,7 +19,6 @@ import java.util.Arrays;
 public class MemberGUI extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private static GMCmds CCA = new CCApplication();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
         //TODO
@@ -36,7 +35,7 @@ public class MemberGUI extends HttpServlet {
                 doPost(request, response);
             }
 
-        }else if("addAppointment".equals(action)) {
+        } else if("addAppointment".equals(action)) {
                 try {
                       request.setAttribute("pagetitle", "Add Appointment");
                       request.getRequestDispatcher("/templates/addAppointmentGUI.ftl").forward(request, response);
@@ -61,15 +60,7 @@ public class MemberGUI extends HttpServlet {
             }
             int groupid = Integer.parseInt(request.getParameter("groupid"));
 
-            /*Appointment[] appointments = new Appointment[] {
-            new Appointment("Joeys verrueckte Fete", "Freibier fuer alle!", "online",
-                    new TimeData(0, 0, 1, 0, 0), new String[]{},
-                    new PossibleDate[]{
-                            new PossibleDate(new TimeData(2021,2,28,14,30),new String[]{"Finn"})},
-                    new TimeData(2021,2,21,14,0),false,46,1)};
-            request.setAttribute("appointments", appointments);*/
-
-            request.setAttribute("appointments", CCA.getGroupAppointments(groupid));
+            request.setAttribute("appointments", CCApplication.getInstance().getGroupAppointments(groupid));
             try {
                 request.getRequestDispatcher("/templates/calendar.ftl").forward(request, response);
             } catch(ServletException | IOException e) {
@@ -81,7 +72,7 @@ public class MemberGUI extends HttpServlet {
             String SelectedDate = request.getParameter("SelectedDate");
             TimeData Selected_Date = new TimeData(SelectedDate);
             String MyName = request.getParameter("MyName");
-            boolean success = CCA.selectDate(AId, MyName, Selected_Date);
+            boolean success = CCApplication.getInstance().selectDate(AId, MyName, Selected_Date);
             if(success){
                 request.setAttribute("success", "it worked!");
 
@@ -119,7 +110,7 @@ public class MemberGUI extends HttpServlet {
         	TimeData deadlineDT = new TimeData(Integer.parseInt(deadline.split("-")[0]), Integer.parseInt(deadline.split("-")[1]), Integer.parseInt(deadline.split("-")[2]), 0, 0);
         	TimeData posDatesDT = new TimeData(Integer.parseInt(posDates.split("-")[0]), Integer.parseInt(posDates.split("-")[1]), Integer.parseInt(posDates.split("-")[2]), Integer.parseInt(posDatesTime.split(":")[0]), Integer.parseInt(posDatesTime.split(":")[1]));
         	int groupid = Integer.parseInt(group_id);
-        	CCA.createAppointment(name, descr, loc, dateDT, new String[] {plannedParticipants}, new PossibleDate[] {new PossibleDate(posDatesDT, new String[] {plannedParticipants})}, deadlineDT,groupid);
+        	CCApplication.getInstance().createAppointment(name, descr, loc, dateDT, new String[] {plannedParticipants}, new PossibleDate[] {new PossibleDate(posDatesDT, new String[] {plannedParticipants})}, deadlineDT,groupid);
 
         	//Redirect to index like defined in statemachine and lifecycle
             response.setStatus(308);

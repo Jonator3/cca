@@ -7,7 +7,7 @@
         .popup h3 { margin: 4px; }
     </style>
 
-    <div class="calendar" style="width: 100%;">
+    <div class="calendar" id="calendar" style="width: 100%;">
         <#list appointments as a>
 
             <#list a.getDates() as pd>

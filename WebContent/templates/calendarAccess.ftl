@@ -8,7 +8,7 @@
     <label title="Group" for="groupid" class="attribute">group</label><br>
     <input type="number" id="groupid" name="groupid" value="0" min="0"><br>
     <label class="attribute">submit</label><br>
-    <input type="submit" value="view calendar">
+    <input type="submit" value="view calendar" id="vcbutton">
 </form>
 
 <#include "footer.ftl">

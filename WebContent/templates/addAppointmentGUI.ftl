@@ -4,9 +4,9 @@
     </style>
     
     <form method="post" action="calendar" style="text-align: left; display: inline-grid;">
-    	<label for="1">name </label><br>
+    	<label for="1">name</label><br>
     	<input type="text" id="1" name="Name"><br>
-    	<label for="2">description </label><br>
+    	<label for="2">description</label><br>
     	<input type="text" id="2" name="descr"><br>
     	<label for="3">location</label><br>
     	<input type="text" id="3" name="loc"><br>
@@ -22,7 +22,7 @@
     	<label for="8">group</label><br>
     	<input type="number" id="8" name="group_id" value="0" min="0"><br>
 		<label>submit</label>
-    	<input type="submit" value="create appointment"><br>
+    	<input type="submit" value="create appointment" id="aabutton"><br>
     	<input type="hidden" name="action" value="addAppointmentGUISubmit">
     </form>
 
