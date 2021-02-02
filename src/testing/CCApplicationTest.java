@@ -19,8 +19,8 @@ public class CCApplicationTest extends TestCase {
 
         CCApplication.getInstance().runTimer();
 
-        // Was zum F*** soll das hier bitte tun?
-        // Wie wäre es mal mit einer Vorlesung bei die der Dozent auch seinen Job macht und uns etwas erkärt.
+        // Was soll das hier bitte tun?
+        // Kann uns der Dozent das mal erklären?
         verify(stub, times(1)).finalizeAppointment(1);
     }
 }

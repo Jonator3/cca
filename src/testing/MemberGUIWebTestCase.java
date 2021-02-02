@@ -18,7 +18,7 @@ public class MemberGUIWebTestCase {
     }
 
     @Test
-    public void testBrowseHolidayOffers() {
+    public void testViewCalendar() {
         // Start testing for MemberGUI
         tester.beginAt("calendar?action=viewCalendar");
 
