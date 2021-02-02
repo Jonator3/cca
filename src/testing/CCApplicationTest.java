@@ -1,9 +1,11 @@
 package testing;
 
+import application.CCApplication;
+import dbAdapters.A_Adapter;
 import junit.framework.TestCase;
 import org.junit.Test;
 
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 public class CCApplicationTest extends TestCase {
     public CCApplicationTest() {
@@ -12,11 +14,13 @@ public class CCApplicationTest extends TestCase {
 
     @Test
     public void testRunTimer() {
-        DBFacade stub = mock(DBFacade.class);
-        DBFacade.setInstance(stub);
+        A_Adapter stub = mock(A_Adapter.class);
+        A_Adapter.setInstance(stub);
 
-        VRApplication.getInstance().checkPayment();
+        CCApplication.getInstance().runTimer();
 
-        verify(stub, times(1)).setAvailableHolidayOffer();
+        // Was zum F*** soll das hier bitte tun?
+        // Wie wäre es mal mit einer Vorlesung bei die der Dozent auch seinen Job macht und uns etwas erkärt.
+        verify(stub, times(1)).finalizeAppointment(1);
     }
 }
