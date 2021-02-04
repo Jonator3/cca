@@ -89,7 +89,27 @@ public class MemberGUI extends HttpServlet {
         } else if("suggestDate".equals(action)) {
             request.setAttribute("pagetitle", "Select Date");
             int AId = Integer.parseInt(request.getParameter("AId"));
-            //TODO...
+            String MyName = request.getParameter("MyName");
+            String date = request.getParameter("date");
+            String time = request.getParameter("time");
+            TimeData date_ = new TimeData(Integer.parseInt(date.split("-")[0]),
+                    Integer.parseInt(date.split("-")[1]), Integer.parseInt(date.split("-")[2]),
+                    Integer.parseInt(time.split(":")[0]), Integer.parseInt(time.split(":")[1]));
+            boolean success = CCApplication.getInstance().selectDate(AId, MyName, date_);
+            if(success) {
+                request.setAttribute("success", "it worked!");
+
+                //Redirect to index like defined in statemachine and lifecycle
+                response.setStatus(308);
+                response.setHeader("Location", "index");
+            } else {
+                request.setAttribute("success", "it didn't worked!");
+            }
+            try {
+                request.getRequestDispatcher("/templates/dateSelectedSuccess.ftl").forward(request, response);
+            }   catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
         }else if("addAppointmentGUISubmit".equals(action)) {
         	request.setAttribute("pagetitle", "add Appointment pagetitle");
         	String name = request.getParameter("Name");

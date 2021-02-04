@@ -1,8 +1,8 @@
 <#include "header.ftl">
     <script src="https://xyz.ddnss.de/calendar.js"></script>
     <style>
-        .attribute { font-size: 10px; margin-top: 6px; margin-left: 2px; color: rgba(0,0,0,0.60);}
-        .id {font-size: 10px; float: right; color: rgba(0,0,0,0.60); position: absolute; right: 20px; margin-top: -14px;}
+        .attribute { font-size: 10px; margin-top: 6px; margin-left: 2px; color: rgba(0,0,0,0.60); }
+        .id {font-size: 10px; float: right; color: rgba(0,0,0,0.60); position: absolute; right: 20px; margin-top: -14px; }
         .popup { color: rgba(0,0,0,0.87) !important; }
         .popup h3 { margin: 4px; }
     </style>
@@ -14,7 +14,8 @@
                 <div class="appointment"
                      data-day="${pd.getDate().getDay()}"
                      data-month="${pd.getDate().getMonth()}"
-                     data-year="${pd.getDate().getYear()}">
+                     data-year="${pd.getDate().getYear()}"
+                    style="<#if !a.isFinal()>background-color: #7986CB;</#if>">
 
                     ${a.getName()}
 
@@ -35,6 +36,13 @@
                         <div class="attribute">time, duration</div>
                         ${pd.getDate().toTimeString()},
                         ${a.getDuration().toDisplayString()}
+
+                        <#if !a.isFinal()>
+                        <div class="attribute">planned participants</div>
+                        <#list a.getPlanned_participants() as pp>
+                            ${pp},
+                        </#list>
+                        </#if>
 
                         <div class="attribute">participants</div>
                         <#list pd.getPossible_participants() as pp>
@@ -60,11 +68,13 @@
                 <div class="attribute">appointment</div>
                 <select name="AId" required>
                     <#list appointments as a>
+                        <#if !a.isFinal()>
                         <option value="${a.getId()}">${a.getName()}</option>
+                        </#if>
                     </#list>
                 </select><br>
                 <div class="attribute">date</div>
-                <input type="date" class="autofilldate" name="date" disabled required>
+                <input type="date" class="autofilldate" name="date" readonly="readonly" required>
                 <div class="attribute">time</div>
                 <input type="time" value="12:00" name="time" required>
                 <div class="attribute">name</div>

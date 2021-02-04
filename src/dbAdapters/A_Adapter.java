@@ -96,6 +96,15 @@ public class A_Adapter implements IAppointment {
         return true;
     }
 
+    private boolean contains(String[] array, String key){
+        for (int n=0;n<array.length;n++){
+            if (array[n].equals(key)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public Appointment[] getAllAppointments() {
         String sql = "SELECT * FROM Appointments";
@@ -221,6 +230,17 @@ public class A_Adapter implements IAppointment {
     public boolean addSelectionToAppointment(int id, String participant, TimeData date) {
         Appointment a = getAppointment(id);
         PossibleDate[] dates = a.getDates();
+        String[] planned_participants = a.getPlanned_participants();
+
+        if (!contains(planned_participants,participant)){
+            String[] new_participants = new String[planned_participants.length+1];
+            new_participants[0] = participant;
+            for (int n=0;n<planned_participants.length;n++){
+                new_participants[n+1] = planned_participants[n];
+            }
+            planned_participants = new_participants;
+        }
+
         boolean date_exists = false;
         for (int i=0;i<dates.length;i++){
             PossibleDate pd = dates[i];
@@ -235,6 +255,9 @@ public class A_Adapter implements IAppointment {
             }
         }
         if (!date_exists){
+            if (a.isFinal()){
+                return false;
+            }
             PossibleDate[] new_dates = new PossibleDate[dates.length+1];
             for (int n=0;n<dates.length;n++){
                 new_dates[n+1] = dates[n];
@@ -242,11 +265,18 @@ public class A_Adapter implements IAppointment {
             new_dates[0] = new PossibleDate(date, new String[]{participant});
             dates = new_dates;
         }
-        String sql = "UPDATE Appointments SET dates = ? WHERE id = ? AND isFinal = FALSE";
+        String sql = "UPDATE Appointments SET planned_participants = ?, dates = ? WHERE id = ?";
 
         try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
             try (PreparedStatement update = con.prepareStatement(sql)){
                 con.setAutoCommit(false);
+                String pp = "";
+                for (int i=0;i<planned_participants.length;i++){
+                    if (i!=0){
+                        pp += ",";
+                    }
+                    pp += planned_participants[i];
+                }
                 String pd = "";
                 for (int i=0;i<dates.length;i++){
                     if (i!=0){
@@ -254,8 +284,8 @@ public class A_Adapter implements IAppointment {
                     }
                     pd += dates[i].toString();
                 }
-                update.setString(1,pd);
-                update.setInt(2,id);
+                update.setString(2,pd);
+                update.setInt(3,id);
                 int res = update.executeUpdate();
                 con.commit();
 
