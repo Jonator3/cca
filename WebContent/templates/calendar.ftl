@@ -14,7 +14,8 @@
                 <div class="appointment"
                      data-day="${pd.getDate().getDay()}"
                      data-month="${pd.getDate().getMonth()}"
-                     data-year="${pd.getDate().getYear()}">
+                     data-year="${pd.getDate().getYear()}"
+                    style="<#if !a.isFinal()>background-color: #2196F3;</#if>">
 
                     ${a.getName()}
 
