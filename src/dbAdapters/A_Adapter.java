@@ -277,6 +277,7 @@ public class A_Adapter implements IAppointment {
                     }
                     pp += planned_participants[i];
                 }
+                update.setString(1,pp);
                 String pd = "";
                 for (int i=0;i<dates.length;i++){
                     if (i!=0){
