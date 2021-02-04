@@ -220,6 +220,56 @@ public class A_Adapter implements IAppointment {
     @Override
     public boolean addSelectionToAppointment(int id, String participant, TimeData date) {
         Appointment a = getAppointment(id);
-        return false;//TODO
+        PossibleDate[] dates = a.getDates();
+        boolean date_exists = false;
+        for (int i=0;i<dates.length;i++){
+            PossibleDate pd = dates[i];
+            if (pd.getDate().equals(date)){
+                date_exists = true;
+                String[] participants = new String[pd.getPossible_participants().length+1];
+                for (int n=0;n<pd.getPossible_participants().length;n++){
+                    participants[n+1] = pd.getPossible_participants()[n];
+                }
+                participants[0] = participant;
+                pd.setPossible_participants(participants);
+            }
+        }
+        if (!date_exists){
+            PossibleDate[] new_dates = new PossibleDate[dates.length+1];
+            for (int n=0;n<dates.length;n++){
+                new_dates[n+1] = dates[n];
+            }
+            new_dates[0] = new PossibleDate(date, new String[]{participant});
+            dates = new_dates;
+        }
+        String sql = "UPDATE Appointments SET dates = ? WHERE id = ? AND isFinal = FALSE";
+
+        try (Connection con = DriverManager.getConnection("jdbc:" + config.getTYPE() + "://" + config.getSERVER() + ":" + config.getPORT() + "/" + config.getDATABASE(), config.getUSER(), config.getPASSWORD())) {
+            try (PreparedStatement update = con.prepareStatement(sql)){
+                con.setAutoCommit(false);
+                String pd = "";
+                for (int i=0;i<dates.length;i++){
+                    if (i!=0){
+                        pd += ",";
+                    }
+                    pd += dates[i].toString();
+                }
+                update.setString(1,pd);
+                update.setInt(2,id);
+                int res = update.executeUpdate();
+                con.commit();
+
+                if (res == 0){
+                    return false;
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+                return false;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }
