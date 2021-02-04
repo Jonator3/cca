@@ -42,6 +42,7 @@
                             ${pp},
                         </#list>
 
+                        <#if !a.isFinal()>
                         <div class="attribute">answer appointment</div>
                         <form method="post" action="calendar">
                             <input type="hidden" value="selectDate" name="action">
@@ -50,6 +51,7 @@
                             <input type="text" name="MyName" placeholder="Max Mustermann" required>
                             <input type="submit" value="Participate">
                         </form>
+                        </#if>
                     </div>
                 </div>
             </#list>
