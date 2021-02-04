@@ -1,8 +1,8 @@
 <#include "header.ftl">
     <script src="https://xyz.ddnss.de/calendar.js"></script>
     <style>
-        .attribute { font-size: 10px; margin-top: 6px; margin-left: 2px; color: rgba(0,0,0,0.60);}
-        .id {font-size: 10px; float: right; color: rgba(0,0,0,0.60); position: absolute; right: 20px; margin-top: -14px;}
+        .attribute { font-size: 10px; margin-top: 6px; margin-left: 2px; color: rgba(0,0,0,0.60); }
+        .id {font-size: 10px; float: right; color: rgba(0,0,0,0.60); position: absolute; right: 20px; margin-top: -14px; }
         .popup { color: rgba(0,0,0,0.87) !important; }
         .popup h3 { margin: 4px; }
     </style>
