@@ -29,6 +29,7 @@
                 	// Append a line break 
                 	container.appendChild(document.createElement("br"));
             	}
+            	addFields();
         	}
     	</script>
 	</head>
