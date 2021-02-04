@@ -21,7 +21,6 @@ public class MemberGUI extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
-        //TODO
         String action = request.getParameter("action");
         if("viewCalendar".equals(action)) {
             if(request.getParameter("groupid") == null) {
@@ -46,7 +45,6 @@ public class MemberGUI extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response){
-        //TODO
         String action = request.getParameter("action");
         if("viewCalendar".equals(action)) {
             request.setAttribute("pagetitle", "Group Calender");
