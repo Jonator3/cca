@@ -110,7 +110,8 @@ public class MemberGUI extends HttpServlet {
         	TimeData deadlineDT = new TimeData(Integer.parseInt(deadline.split("-")[0]), Integer.parseInt(deadline.split("-")[1]), Integer.parseInt(deadline.split("-")[2]), 0, 0);
         	TimeData posDatesDT = new TimeData(Integer.parseInt(posDates.split("-")[0]), Integer.parseInt(posDates.split("-")[1]), Integer.parseInt(posDates.split("-")[2]), Integer.parseInt(posDatesTime.split(":")[0]), Integer.parseInt(posDatesTime.split(":")[1]));
         	int groupid = Integer.parseInt(group_id);
-        	CCApplication.getInstance().createAppointment(name, descr, loc, dateDT, new String[] {plannedParticipants}, new PossibleDate[] {new PossibleDate(posDatesDT, new String[] {plannedParticipants})}, deadlineDT,groupid);
+        	String[] plannedParticipantsArr = plannedParticipants.split(",");
+        	CCApplication.getInstance().createAppointment(name, descr, loc, dateDT, plannedParticipantsArr, new PossibleDate[] {new PossibleDate(posDatesDT, plannedParticipantsArr)}, deadlineDT,groupid);
 
         	//Redirect to index like defined in statemachine and lifecycle
             response.setStatus(308);
