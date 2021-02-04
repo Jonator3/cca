@@ -97,7 +97,12 @@ public class A_Adapter implements IAppointment {
     }
 
     private boolean contains(String[] array, String key){
-
+        for (int n=0;n<array.length;n++){
+            if (array[n].equals(key)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
