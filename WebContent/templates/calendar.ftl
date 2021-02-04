@@ -61,7 +61,9 @@
                 <div class="attribute">appointment</div>
                 <select name="AId" required>
                     <#list appointments as a>
+                        <#if !a.isFinal()>
                         <option value="${a.getId()}">${a.getName()}</option>
+                        </#if>
                     </#list>
                 </select><br>
                 <div class="attribute">date</div>
