@@ -64,7 +64,7 @@
                     </#list>
                 </select><br>
                 <div class="attribute">date</div>
-                <input type="date" class="autofilldate" name="date" disabled required>
+                <input type="date" class="autofilldate" name="date" readonly="readonly" required>
                 <div class="attribute">time</div>
                 <input type="time" value="12:00" name="time" required>
                 <div class="attribute">name</div>
