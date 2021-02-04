@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class MemberGUI extends HttpServlet {
 
@@ -97,7 +98,7 @@ public class MemberGUI extends HttpServlet {
         	String descr = request.getParameter("descr");
         	String loc = request.getParameter("loc");
         	String date = request.getParameter("date");
-        	String plannedParticipants = request.getParameter("plannedParticipants");
+        	//String plannedParticipants = request.getParameter("plannedParticipants");
         	String posDates = request.getParameter("posDatesDate");
         	String posDatesTime = request.getParameter("posDatesTime");
         	String deadline = request.getParameter("deadline");
@@ -106,12 +107,23 @@ public class MemberGUI extends HttpServlet {
         	System.out.println("posDates: "+posDates);
         	System.out.println("posDatesTime: "+posDatesTime);
         	System.out.println("deadline: "+deadline);*/
+        	LinkedList<String> plannedParticipants = new LinkedList<String>();
+        	int i=0;
+        	while(request.getParameter("member"+i)!=null&&request.getParameter("member"+i).length()!=0) {
+        		plannedParticipants.add(request.getParameter("member"+i));
+        		i++;
+        	}
         	TimeData dateDT = new TimeData(0, 0, 0, Integer.parseInt(date.split(":")[0]), Integer.parseInt(date.split(":")[1]));
         	TimeData deadlineDT = new TimeData(Integer.parseInt(deadline.split("-")[0]), Integer.parseInt(deadline.split("-")[1]), Integer.parseInt(deadline.split("-")[2]), 0, 0);
         	TimeData posDatesDT = new TimeData(Integer.parseInt(posDates.split("-")[0]), Integer.parseInt(posDates.split("-")[1]), Integer.parseInt(posDates.split("-")[2]), Integer.parseInt(posDatesTime.split(":")[0]), Integer.parseInt(posDatesTime.split(":")[1]));
         	int groupid = Integer.parseInt(group_id);
-        	String[] plannedParticipantsArr = plannedParticipants.split(",");
-        	CCApplication.getInstance().createAppointment(name, descr, loc, dateDT, plannedParticipantsArr, new PossibleDate[] {new PossibleDate(posDatesDT, plannedParticipantsArr)}, deadlineDT,groupid);
+        	//String[] plannedParticipantsArr = plannedParticipants.split(",");
+        	String[] plannedParticipantsArr = new String[plannedParticipants.size()];
+        	for(i=0; i<plannedParticipantsArr.length; i++) {
+        		plannedParticipantsArr[i] = plannedParticipants.get(i);
+        	}
+        	System.out.println("plannedParticipants: "+Arrays.toString(plannedParticipantsArr));
+        	CCApplication.getInstance().createAppointment(name, descr, loc, dateDT, plannedParticipantsArr, new PossibleDate[] {new PossibleDate(posDatesDT, new String[] {plannedParticipantsArr[0]})}, deadlineDT,groupid);
 
         	//Redirect to index like defined in statemachine and lifecycle
             response.setStatus(308);
