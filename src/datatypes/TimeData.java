@@ -27,6 +27,16 @@ public class TimeData {
         this.min = Integer.parseInt(data[4]);
     }
 
+    @Override
+    public boolean equals(Object other){
+        if (other instanceof TimeData){
+            TimeData td = (TimeData) other;
+            return year==td.getYear() && month==td.getMonth() && day==td.getDay() && hour==td.getHour() && min==td.getMin();
+        }else {
+            return false;
+        }
+    }
+
     public static TimeData now(){
         LocalDateTime date = LocalDateTime.now();
         return new TimeData(date.getYear(),date.getMonthValue(),date.getDayOfMonth(),date.getHour(),date.getMinute());
