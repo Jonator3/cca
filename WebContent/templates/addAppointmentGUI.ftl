@@ -1,38 +1,33 @@
 <#include "header.ftl">
 
-	<head>
 	    <script type='text/javascript'>
+	    var count = 1;
 	        function addFields(){
 	            // Number of inputs to create
 	            var number = document.getElementById("5").value;
 	            // Container <div> where dynamic content will be placed
 	            var container = document.getElementById("container");
-	            // Clear previous contents of the container
-	            while (container.hasChildNodes()) {
-	                container.removeChild(container.lastChild);
-	            }
 	            number = Math.max(number, 1);
-	            for (let i=0;i<number;i++){
-                	// Append a node with a random text
-                	if(i==0){
-                		container.appendChild(document.createTextNode("Your Name"));
-                	}else{
-                		container.appendChild(document.createTextNode("plannedParticipant no. "+(i+1)));
-                	}
+	            for (let i=count;i<number;i++){
+                	container.appendChild(document.createTextNode("plannedParticipant no. "+(i+1)+"_:"));
                 	// Create an <input> element, set its type and name attributes
                 	var input = document.createElement("input");
                 	input.type = "text";
-                	input.name = "member"+i.toString();
+                	input.name = "member"+i;
                 	console.log(input.name);
                 	input.required = true;
                 	container.appendChild(input);
                 	// Append a line break 
                 	container.appendChild(document.createElement("br"));
             	}
-            	addFields();
+            	for( let i=number;i<count;i++){
+            		container.removeChild(container.lastChild);//label
+            		container.removeChild(container.lastChild);//input
+            		container.removeChild(container.lastChild);//br
+            	}
+            	count = number;
         	}
     	</script>
-	</head>
     <style>
         label { font-size: 10px; margin-top: 6px; margin-left: 2px; color: rgba(0,0,0,0.60);}
     </style>
@@ -49,7 +44,10 @@
     	<label for="5">number ofplanned participants including you</label><br>
     	<input type="number" id="5" name="numberOfplannedParticipants" required>
     	<button type="button" onClick="addFields()">create inputFields for PP</button>
-    	<div id="container" name="ppcontainer"></div>
+    	<div id="container" name="ppcontainer">
+    	<label for="51">your Name_______________:</label>
+    	<input type="text" id="51" name="member0" required><br>
+    	</div>
     	<label for="6">possible dates</label><br>
     	<input type="date" id="6" name="posDatesDate" required>
     	<input type="time" id="61" name="posDatesTime" required><br>
