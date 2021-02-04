@@ -15,7 +15,7 @@
                      data-day="${pd.getDate().getDay()}"
                      data-month="${pd.getDate().getMonth()}"
                      data-year="${pd.getDate().getYear()}"
-                    style="<#if !a.isFinal()>background-color: #2196F3;</#if>">
+                    style="<#if !a.isFinal()>background-color: #7986CB;</#if>">
 
                     ${a.getName()}
 
