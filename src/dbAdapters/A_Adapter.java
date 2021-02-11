@@ -13,7 +13,7 @@ public class A_Adapter implements IAppointment {
     private static A_Adapter instance;
 
     public static A_Adapter getInstance(){
-        if (instance == null){
+        if(instance == null){
             instance = new A_Adapter();
             try {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -24,6 +24,13 @@ public class A_Adapter implements IAppointment {
         return instance;
     }
     public static void setInstance(A_Adapter instance_) {
+        if(instance == null) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         instance = instance_;
     }
 
