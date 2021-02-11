@@ -17,10 +17,10 @@ public class TimeDataTest {
     @Test
     public final void testisBefore() {
         // test when b is before td
-        assertEquals(true, td.isBefore(new TimeData(0,1,1,0,0)));
+        assertEquals(false, td.isBefore(new TimeData(0,1,1,0,0)));
 
         // test when b is after td
-        assertEquals(false, td.isBefore(new TimeData(2021,1,1,0,0)));
+        assertEquals(true, td.isBefore(new TimeData(2021,1,1,0,0)));
 
         // test when b is equal to td
         assertEquals(false, td.isBefore(td));

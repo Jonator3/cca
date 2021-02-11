@@ -42,7 +42,7 @@ public class MemberGUIWebTestCase {
 
     @Test
     public void testAddCalendar() {
-        tester.beginAt("calendar?action=viewCalendar");
+        tester.beginAt("calendar?action=addAppointment");
 
         tester.assertTitleEquals("CCA - Add Appointment");
         tester.assertFormPresent();
@@ -62,7 +62,7 @@ public class MemberGUIWebTestCase {
         tester.setTextField("Name", "TestAppointment");
         tester.setTextField("loc", "TestLocation");
         tester.setTextField("date", "01:30");
-        tester.setTextField("plannedParticipants", "User1,User2");
+        //tester.setTextField("plannedParticipants", "User1");
         tester.setTextField("posDatesDate", "2021-11-11");
         tester.setTextField("posDatesTime", "11:11");
         tester.setTextField("deadline", "2021-11-10");
