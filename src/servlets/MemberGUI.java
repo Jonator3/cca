@@ -26,7 +26,7 @@ public class MemberGUI extends HttpServlet {
         if("viewCalendar".equals(action)) {
             if(request.getParameter("groupid") == null) {
                 try {
-                    request.setAttribute("pagetitle", "Group Calender");
+                    request.setAttribute("pagetitle", "Group Calendar");
                     request.getRequestDispatcher("/templates/calendarAccess.ftl").forward(request, response);
                 } catch (ServletException | IOException e) {
                     e.printStackTrace();
@@ -48,7 +48,7 @@ public class MemberGUI extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response){
         String action = request.getParameter("action");
         if("viewCalendar".equals(action)) {
-            request.setAttribute("pagetitle", "Group Calender");
+            request.setAttribute("pagetitle", "Group Calendar");
             if(request.getParameter("groupid") == null) {
                 request.setAttribute("errormessage", "Attribute error: Please don't forget the groupid!");
                 try {
