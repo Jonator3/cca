@@ -15,7 +15,7 @@ public class MemberGUIWebTestCase {
     public void prepare() {
         tester = new WebTester();
         tester.setScriptingEnabled(false);
-        tester.setBaseUrl("http://localhost:8080/");
+        tester.setBaseUrl("http://localhost:8080/cca");
     }
 
     @Test
@@ -63,13 +63,13 @@ public class MemberGUIWebTestCase {
         tester.setTextField("Name", "TestAppointment");
         tester.setTextField("loc", "TestLocation");
         tester.setTextField("date", "01:30");
-        //tester.setTextField("plannedParticipants", "User1");
+        tester.setTextField("numberOfplannedParticipants", "1");
+        tester.setTextField("member0", "myName");
         tester.setTextField("posDatesDate", "2021-11-11");
         tester.setTextField("posDatesTime", "11:11");
         tester.setTextField("deadline", "2021-11-10");
         tester.setTextField("group_id", "0");
-
-        tester.clickButton("aabutton");
+        
     }
 
     @Test
