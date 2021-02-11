@@ -14,6 +14,7 @@ public class MemberGUIWebTestCase {
     @Before
     public void prepare() {
         tester = new WebTester();
+        tester.setScriptingEnabled(false);
         tester.setBaseUrl("http://localhost:8080/");
     }
 

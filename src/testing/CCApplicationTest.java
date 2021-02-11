@@ -2,12 +2,11 @@ package testing;
 
 import application.CCApplication;
 import dbAdapters.A_Adapter;
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
-public class CCApplicationTest extends TestCase {
+public class CCApplicationTest {
     public CCApplicationTest() {
         super();
     }
