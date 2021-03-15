@@ -116,15 +116,10 @@ public class MemberGUI extends HttpServlet {
         	String descr = request.getParameter("descr");
         	String loc = request.getParameter("loc");
         	String date = request.getParameter("date");
-        	//String plannedParticipants = request.getParameter("plannedParticipants");
         	String posDates = request.getParameter("posDatesDate");
         	String posDatesTime = request.getParameter("posDatesTime");
         	String deadline = request.getParameter("deadline");
         	String group_id = request.getParameter("group_id");
-        	/*System.out.println("date: "+date);
-        	System.out.println("posDates: "+posDates);
-        	System.out.println("posDatesTime: "+posDatesTime);
-        	System.out.println("deadline: "+deadline);*/
         	LinkedList<String> plannedParticipants = new LinkedList<String>();
         	int i=0;
         	while(request.getParameter("member"+i)!=null&&request.getParameter("member"+i).length()!=0) {
@@ -135,7 +130,6 @@ public class MemberGUI extends HttpServlet {
         	TimeData deadlineDT = new TimeData(Integer.parseInt(deadline.split("-")[0]), Integer.parseInt(deadline.split("-")[1]), Integer.parseInt(deadline.split("-")[2]), 0, 0);
         	TimeData posDatesDT = new TimeData(Integer.parseInt(posDates.split("-")[0]), Integer.parseInt(posDates.split("-")[1]), Integer.parseInt(posDates.split("-")[2]), Integer.parseInt(posDatesTime.split(":")[0]), Integer.parseInt(posDatesTime.split(":")[1]));
         	int groupid = Integer.parseInt(group_id);
-        	//String[] plannedParticipantsArr = plannedParticipants.split(",");
         	String[] plannedParticipantsArr = new String[plannedParticipants.size()];
         	for(i=0; i<plannedParticipantsArr.length; i++) {
         		plannedParticipantsArr[i] = plannedParticipants.get(i);

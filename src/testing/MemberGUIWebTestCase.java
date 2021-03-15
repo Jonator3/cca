@@ -75,5 +75,12 @@ public class MemberGUIWebTestCase {
     @Test
     public void testAnswerAppointment() {
         tester.beginAt("calendar?action=viewCalendar&groupid=0");
+
+        tester.assertTitleEquals("CCA - Group Calendar");
+        tester.assertFormPresent();
+        tester.assertTextPresent("date");
+        tester.assertTextPresent("time");
+        tester.assertTextPresent("name");
+
     }
 }
