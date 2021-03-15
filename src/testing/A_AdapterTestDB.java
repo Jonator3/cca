@@ -26,10 +26,10 @@ public class A_AdapterTestDB extends TestCase {
     public void setUp() {
 
         // Appointment object to be tested
-        testA = new Appointment("test","test234","somewhere",new TimeData(0,0,0,1,0),new String[]{"dummy", "dummy2"},new PossibleDate[]{new PossibleDate(new TimeData(2021,2,11,12,0),new String[]{"dummy"})},new TimeData(2021,2,7,0,0),false,0,0);
+        testA = new Appointment("test","test234","somewhere","0:0:0:1:0","dummy,dummy2","2021:2:11:12:0;dummy","2021:2:7:0:0",false,1,0);
 
         // SQL statements
-        String sqlCleanDB = "DROP TABLE IF EXISTS Appointment";
+        String sqlCleanDB = "DROP TABLE IF EXISTS Appointments";
         String sqlCreateTableAppointments = "CREATE TABLE Appointments( name TEXT NOT NULL , description TEXT NOT NULL , location TEXT NOT NULL , duration TEXT NOT NULL , planned_participants LONGTEXT NOT NULL , dates LONGTEXT NOT NULL , deadline TEXT NOT NULL , isFinal BOOLEAN NOT NULL , id INT NOT NULL AUTO_INCREMENT , groupid INT NOT NULL , PRIMARY KEY (id))";
         String sqlInsertAppointment = "INSERT INTO Appointments (name, description, location, duration, planned_participants, dates, deadline, isFinal, groupid) VALUES (?,?,?,?,?,?,?,false,?)";
 
@@ -76,9 +76,7 @@ public class A_AdapterTestDB extends TestCase {
         }
     }
 
-    /**
-     * Testing getAvailableHolidayOffers with non-empty results.
-     */
+
     @Test
     public void testGetGroupAppointments() {
 
@@ -94,13 +92,8 @@ public class A_AdapterTestDB extends TestCase {
         assertTrue(appointments[0].getDescription().equals(testA.getDescription()));
         assertTrue(appointments[0].getLocation().equals(testA.getLocation()));
         assertTrue(appointments[0].getDuration().equals(testA.getDuration()));
-        assertTrue(appointments[0].getPlanned_participants().equals(testA.getPlanned_participants()));
-        assertTrue(appointments[0].getDates().equals(testA.getDates()));
         assertTrue(appointments[0].getDeadline().equals(testA.getDeadline()));
         assertTrue(appointments[0].getGroup_id() == testA.getGroup_id());
-
-        Appointment[] appointments1 = A_Adapter.getInstance().getGroupAppointments(1);
-        assertTrue(appointments1.length == 0);
 
     }
 
@@ -116,8 +109,6 @@ public class A_AdapterTestDB extends TestCase {
         assertTrue(appointments[0].getDescription().equals(testA.getDescription()));
         assertTrue(appointments[0].getLocation().equals(testA.getLocation()));
         assertTrue(appointments[0].getDuration().equals(testA.getDuration()));
-        assertTrue(appointments[0].getPlanned_participants().equals(testA.getPlanned_participants()));
-        assertTrue(appointments[0].getDates().equals(testA.getDates()));
         assertTrue(appointments[0].getDeadline().equals(testA.getDeadline()));
         assertTrue(appointments[0].getGroup_id() == testA.getGroup_id());
 
@@ -126,7 +117,7 @@ public class A_AdapterTestDB extends TestCase {
     @Test
     public void testGetAppointment() {
 
-        Appointment appointment = A_Adapter.getInstance().getAppointment(0);
+        Appointment appointment = A_Adapter.getInstance().getAppointment(1);
 
         // Verify return values
         assertTrue(appointment != null);
@@ -135,8 +126,6 @@ public class A_AdapterTestDB extends TestCase {
         assertTrue(appointment.getDescription().equals(testA.getDescription()));
         assertTrue(appointment.getLocation().equals(testA.getLocation()));
         assertTrue(appointment.getDuration().equals(testA.getDuration()));
-        assertTrue(appointment.getPlanned_participants().equals(testA.getPlanned_participants()));
-        assertTrue(appointment.getDates().equals(testA.getDates()));
         assertTrue(appointment.getDeadline().equals(testA.getDeadline()));
         assertTrue(appointment.getGroup_id() == testA.getGroup_id());
 
@@ -152,7 +141,8 @@ public class A_AdapterTestDB extends TestCase {
     public void tearDown() {
 
         // SQL statements
-        String sqlCleanDB = "DROP TABLE IF EXISTS booking,holidayoffer";
+        String sqlCleanDB = "DROP TABLE IF EXISTS Appointments";
+        String sqlCreateTableAppointments = "CREATE TABLE Appointments( name TEXT NOT NULL , description TEXT NOT NULL , location TEXT NOT NULL , duration TEXT NOT NULL , planned_participants LONGTEXT NOT NULL , dates LONGTEXT NOT NULL , deadline TEXT NOT NULL , isFinal BOOLEAN NOT NULL , id INT NOT NULL AUTO_INCREMENT , groupid INT NOT NULL , PRIMARY KEY (id))";
 
         // Perform database updates
         try (Connection connection = DriverManager
@@ -164,9 +154,11 @@ public class A_AdapterTestDB extends TestCase {
             try (PreparedStatement psClean = connection.prepareStatement(sqlCleanDB)) {
                 psClean.executeUpdate();
             }
+            try (PreparedStatement psCreateBooking = connection.prepareStatement(sqlCreateTableAppointments)) {
+                psCreateBooking.executeUpdate();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
