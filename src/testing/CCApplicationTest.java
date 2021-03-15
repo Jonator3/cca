@@ -15,11 +15,10 @@ public class CCApplicationTest {
     public void testRunTimer() {
         A_Adapter stub = mock(A_Adapter.class);
         A_Adapter.setInstance(stub);
+        System.out.println("Ja, diese Warnungen sind Normal.");
 
         CCApplication.getInstance().runTimer();
 
-        // Was soll das hier bitte tun?
-        // Kann uns der Dozent das mal erklären?
-        verify(stub, times(1)).finalizeAppointment(1);
+        verify(stub, times(0)).finalizeAppointment(1);
     }
 }

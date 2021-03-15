@@ -33,6 +33,10 @@ public class CCApplication implements ITimer, GMCmds {
         // entry Point of CCA_ASAD
         Appointment[] appointments = a_adapter.getAllAppointments();
 
+        if (appointments == null){
+            return;
+        }
+
         for(int i=0;i<appointments.length;i++){
             Appointment a = appointments[i];
             if (!a.isFinal()) {
